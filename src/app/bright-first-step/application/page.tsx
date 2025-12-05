@@ -111,10 +111,11 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
         ...prevData,
         "item_price": numValue,
         "entire_report_period_days": suggestedReportDays,
-        "report_interval_days": suggestedReportDays,
       }));
+
       return;
     }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
