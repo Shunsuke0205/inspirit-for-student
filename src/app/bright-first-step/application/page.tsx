@@ -95,10 +95,23 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
     const { name, value, type } = e.target;
 
     if (type === "number") {
-      const numValue = value === "" ? "" : Number(value);
+      const numValue = (value === "" ? "" : Number(value));
+      if (name === "item_price" && numValue !== "") {
+        const price = Number(numValue);
+        const yenPerReportDay = 130;
+        const suggestedReportDays = Math.floor(price / yenPerReportDay);
+        
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: numValue,
+          "entire_report_period_days": suggestedReportDays,
+          "report_interval_days": suggestedReportDays,
+        }));
+        return;        
+      }
       setFormData((prevData) => ({
         ...prevData,
-        [name]: numValue,
+        [name]: value,
       }));
     } else {
       setFormData((prevData) => ({
