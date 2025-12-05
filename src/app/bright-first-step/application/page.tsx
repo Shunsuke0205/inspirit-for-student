@@ -99,6 +99,8 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
         ...prevData,
         [name]: value,
       }));
+
+      return;
     }
 
     const numValue = (value === "" ? "" : Number(value));
@@ -118,7 +120,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: numValue,
     }));
   };
 
