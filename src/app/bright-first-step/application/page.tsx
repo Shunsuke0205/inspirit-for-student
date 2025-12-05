@@ -94,31 +94,31 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
-    if (type === "number") {
-      const numValue = (value === "" ? "" : Number(value));
-      if (name === "item_price" && numValue !== "") {
-        const price = Number(numValue);
-        const yenPerReportDay = 120;
-        const suggestedReportDays = Math.floor(price / yenPerReportDay);
-        
-        setFormData((prevData) => ({
-          ...prevData,
-          "item_price": numValue,
-          "entire_report_period_days": suggestedReportDays,
-          "report_interval_days": suggestedReportDays,
-        }));
-        return;        
-      }
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    } else {
+    if (type !== "number") {
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
     }
+
+    const numValue = (value === "" ? "" : Number(value));
+    if (name === "item_price" && numValue !== "") {
+      const price = Number(numValue);
+      const yenPerReportDay = 120;
+      const suggestedReportDays = Math.floor(price / yenPerReportDay);
+
+      setFormData((prevData) => ({
+        ...prevData,
+        "item_price": numValue,
+        "entire_report_period_days": suggestedReportDays,
+        "report_interval_days": suggestedReportDays,
+      }));
+      return;
+    }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   // フォーム送信ハンドラ
