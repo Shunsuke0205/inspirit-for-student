@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 import React, { FormEvent, useEffect, useState } from "react";
 
 
@@ -394,6 +395,9 @@ const Page = () => {
 
   return (
     <div>
+      <Link href="/guide" target="_blank" rel="noopener noreferrer" className="mt-12 text-indigo-600 hover:text-indigo-800 transition-colors">
+        <span className="text-sm">アプリの使い方ページはこちら</span>
+      </Link>
       <ApplicationForm userId={userId} />
     </div>
   );
