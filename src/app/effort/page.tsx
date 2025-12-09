@@ -136,13 +136,13 @@ export default async function EffortPage() {
             <div className="w-3 h-3 bg-sky-400 rounded-sm"></div>
             <span className="text-xs text-gray-600">コミットメントあり</span>
           </div>
-          <div className="flex items-center gap-2 pt-2 flex-wrap">
+          {/* <div className="flex items-center gap-2 pt-2 flex-wrap">
             <div className="w-3 h-3 bg-yellow-300 rounded-sm"></div>
             <span className="text-xs text-gray-600">ログインしたがコミットなし</span>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2 pt-2 flex-wrap">
             <div className="w-3 h-3 bg-gray-100 rounded-sm border border-gray-400"></div>
-            <span className="text-xs text-gray-600">未アクセス/未報告</span>
+            <span className="text-xs text-gray-600">なし</span>
           </div>
         </div>
         <CommitmentCalendar commitMap={commitmentDateMap} todayJst={jstDateData} />
