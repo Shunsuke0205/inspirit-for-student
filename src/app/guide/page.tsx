@@ -41,11 +41,15 @@ export default function GuidePage() {
             <ul className="list-[circle] list-outside pl-8">
               <li className="font-bold">「Amazon　欲しいものリスト　匿名　作り方」などとネット検索をして、AmazonのURLを作ってください。</li>
               <li>このとき、自分の本名が公開されないよう十分注意してください！</li>
+              <li>
+                <div className="font-bold">住所の一番最後に「（あなたの本名）方」と記載してください。</div>
+                「（あなたの本名）さんのところに届くようにお願いします」という意味です。購入者に本名を知られないよう名前のところをハンドルネームにするため、この記載がないと配送業者さんが商品を届けられません。</li>
             </ul>
             <li>「活動報告期間」を決めます。</li>
             <ul className="list-[circle] list-outside pl-8">
               <li>活動報告期間とは、物品を代理購入された日から、この日数の間は「毎日欠かさず活動報告をする」という約束です。</li>
               <li>活動報告とはコミットメントボタンを押すことです。その日にその代理購入された商品を「触った」「触っていない」ことをコミットメントボタンで報告します。</li>
+              <li>みなさんのコミットメントは購入者が見える仕組みになっています。</li>
             </ul>
           </ul>
           <Link href="/bright-first-step/application" target="_blank" rel="noopener noreferrer">
