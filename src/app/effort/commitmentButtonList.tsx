@@ -41,7 +41,7 @@ export default async function CommitmentButtonList({ applications } : { applicat
   return (
     <div>
       <div className="mb-6 p-5 bg-white shadow-xl rounded-xl space-y-5 border-t-4 border-indigo-500">
-        <h2 className="text-xl font-bold text-gray-700">本日報告すべき商品 ({toCommitCount} 件)</h2>
+        <h2 className="text-xl font-bold text-gray-700">本日報告すべき商品（{toCommitCount} 件）</h2>
       </div>
 
 
