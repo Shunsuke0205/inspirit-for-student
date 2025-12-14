@@ -34,7 +34,7 @@ const Header = async () => {
           height={50}
           className=""
         />
-        <h1 className="ml-4 text-2xl">高校生クラファン</h1>
+        <h1 className="ml-4 text-xl lg:text-2xl">高校生クラファン</h1>
       </Link>
       {isLoggedIn ?
         <div>
