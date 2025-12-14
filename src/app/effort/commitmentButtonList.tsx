@@ -61,7 +61,11 @@ export default async function CommitmentButtonList({ applications } : { applicat
       })}
       
       {toCommitCount === 0 && (
-        <p className="text-center text-gray-500 pt-4">素晴らしいですね！　今日の報告はすべて完了しています。🙌🏻</p>
+        <p className="text-left text-gray-500 pt-4 px-5">
+          素晴らしいですね！　
+          <br className="md:hidden" />
+          今日の報告はすべて完了しています。🙌🏻
+        </p>
       )}
     </div>
   );
