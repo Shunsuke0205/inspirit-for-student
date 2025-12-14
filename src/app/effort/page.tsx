@@ -118,11 +118,13 @@ export default async function EffortPage() {
 
   return (
     <div className="container mx-auto p-4 max-w-xl space-y-8">
-      <h1 className="text-3xl font-extrabold text-gray-800 text-center">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-bold lg:font-extrabold text-gray-800 text-center">
         🔥 今日のコミットメント
       </h1>
       <p className="text-sm text-gray-600 text-center">
-        報告義務のある商品について、今日の活動を記録しましょう。
+        報告義務のある商品について、
+        <br className="md:hidden" />
+        今日の活動を記録しましょう。
       </p>
 
       {reportingApplicationData && reportingApplicationData.length > 0 && <CommitmentButtonList applications={reportingApplicationData} />}
