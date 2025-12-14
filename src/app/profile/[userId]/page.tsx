@@ -18,7 +18,13 @@ export default async function UserProfilePage({
     <div>
       <h1>ユーザーID：{userId}</h1>
       {/* Additional user profile content can be added here */}
-      { userData.user.id === userId ? <LogoutButton /> : null }
+      <div>
+        { userData.user.id === userId ? <LogoutButton /> : null }
+      </div>
+      <div className="mt-8">
+        開発者の平田駿輔です。<br />
+        恐れ入りますが、このページを作り込むのはまだまだ先になります。🙇🏻‍♀️
+      </div>
     </div>
   );
 };
