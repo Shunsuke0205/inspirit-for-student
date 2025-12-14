@@ -1,7 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const Header = async () => {
   const supabase = await createClient();
@@ -36,28 +35,13 @@ const Header = async () => {
         />
         <h1 className="ml-4 text-xl lg:text-2xl">高校生クラファン</h1>
       </Link>
-      {isLoggedIn ?
+      {isLoggedIn &&
         <div>
           <Link
             href={`/profile/${userData.user.id}`}
             className="border border-gray-300 px-3 py-1 bg-orange-100 cursor-pointer rounded-lg hover:bg-orange-100"
           >
             マイページ
-          </Link>
-        </div>
-        :
-        <div>
-          <Link
-            href="/login"
-            className="border border-gray-300 px-3 py-1 bg-orange-100 cursor-pointer rounded-lg hover:bg-orange-200"
-          >
-            ログイン
-          </Link>
-          <Link
-            href="/signup"
-            className="border border-gray-300 ml-4 px-3 py-1 bg-orange-100 cursor-pointer rounded-lg hover:bg-orange-200"
-          >
-            新規登録
           </Link>
         </div>
       }
