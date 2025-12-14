@@ -64,20 +64,23 @@ const CommitmentButton = ({ application } : { application: Application }) => {
 
 
   return (
-    <div key={application.id} className="border-b pb-4 last:border-b-0 last:pb-0">
-      <h3 className="font-semibold text-gray-800 text-base mb-3">{application.itemName}</h3>
+    <div key={application.id} className="mt-5">
+      <h3 className="font-semibold text-gray-800 text-base">{application.itemName}</h3>
 
       {/* ⚠️ 仮報告状態の表示 */}
-      <p className="text-xs font-medium text-red-500 mb-2">
-        {isPotentialMiss && "「触れないかも」と仮報告済みなので、「触れた」に更新できます。"}
+      <p className="text-xs font-medium text-gray-500">
+        {isPotentialMiss &&
+          <div>
+            「触れた」に更新することもできます。
+          </div>}
       </p>
       {statusMessage && (
-        <p>
+        <p className="text-xs text-green-600 font-medium">
           {statusMessage}
         </p>
       )}
 
-      <div className="flex gap-2">
+      <div className="mt-1 flex gap-2 md:gap-4 lg:gap-6">
         {/* 1. 今日触れたボタン (常に可能) */}
         <button
           onClick={() => handleCommitment(application.id, "touched")}

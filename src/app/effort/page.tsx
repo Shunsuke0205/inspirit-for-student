@@ -117,11 +117,11 @@ export default async function EffortPage() {
 
 
   return (
-    <div className="container mx-auto p-4 max-w-xl space-y-8">
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-bold lg:font-extrabold text-gray-800 text-center">
+    <div className="container mx-auto p-4 max-w-xl">
+      <h1 className="mt-3 text-xl md:text-2xl lg:text-3xl font-bold lg:font-extrabold text-gray-800 text-center">
         🔥 今日のコミットメント
       </h1>
-      <p className="text-sm text-gray-600 text-center">
+      <p className="mt-4 text-sm text-gray-600 text-center">
         報告義務のある商品について、
         <br className="md:hidden" />
         今日の活動を記録しましょう。
@@ -130,7 +130,7 @@ export default async function EffortPage() {
       {reportingApplicationData && reportingApplicationData.length > 0 && <CommitmentButtonList applications={reportingApplicationData} />}
 
       {/* Commitment Calendar */}
-      <div className="p-5 bg-white shadow-xl rounded-xl space-y-4">
+      <div className="mt-4 p-5 bg-white shadow-xl rounded-xl space-y-1">
         <h2 className="text-xl font-bold text-gray-700">継続カレンダー</h2>
         <p className="text-xs text-gray-500">（直近6週間の活動実績）</p>
         <div className="flex flex-col sm:flex-row sm:space-x-6">

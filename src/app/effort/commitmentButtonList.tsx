@@ -38,7 +38,7 @@ export default async function CommitmentButtonList({ applications } : { applicat
 
   return (
     <div>
-      <div className="mb-6 p-5 bg-white shadow-xl rounded-xl space-y-5 border-t-4 border-indigo-500">
+      <div className="mt-8 mb-6 p-5 bg-white shadow-xl rounded-xl border-t-4 border-indigo-500">
         <h2 className="text-xl font-bold text-gray-700">本日報告すべき商品（{toCommitCount} 件）</h2>
       </div>
 
@@ -48,7 +48,7 @@ export default async function CommitmentButtonList({ applications } : { applicat
           return null; // Skip rendering this application
         }
         return (
-          <div key={app.id} className="mb-6 last:mb-0">
+          <div key={app.id} >
             <CommitmentButton application={{
               id: app.id,
               itemName: app.item_name,
@@ -59,7 +59,7 @@ export default async function CommitmentButtonList({ applications } : { applicat
       })}
       
       {toCommitCount === 0 && (
-        <p className="text-left text-gray-500 pt-4 px-5">
+        <p className="text-left text-gray-500 mt-8 px-5">
           素晴らしいですね！　
           <br className="md:hidden" />
           今日の報告はすべて完了しています。🙌🏻
