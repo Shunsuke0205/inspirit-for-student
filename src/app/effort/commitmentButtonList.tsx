@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/server";
-import React from "react";
 import CommitmentButton from "./commitmentButton";
 import { redirect } from "next/navigation";
 
@@ -34,7 +33,6 @@ export default async function CommitmentButtonList({ applications } : { applicat
     return <div>申し訳ございません。今日のコミットメント情報を取得できませんでした</div>;
   }
 
-  // console.log("Today's Commitments Data:", todayCommitmentsData);
 
   const toCommitCount = applications.filter(app => !todayCommitmentsData?.some(c => c.application_id === app.id)).length;
 
