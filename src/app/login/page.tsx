@@ -9,7 +9,7 @@ export default function LoginPage() {
         
         <LoginComponent />
 
-        {/* サインアップへの案内 */}
+        {/* leads to signup page */}
         <div className="mt-8">
           <p className="text-sm text-gray-600">
             アカウントをお持ちでないですか？
