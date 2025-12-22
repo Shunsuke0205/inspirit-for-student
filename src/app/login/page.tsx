@@ -14,7 +14,7 @@ export default function LoginPage() {
           <p className="text-sm text-gray-600">
             アカウントをお持ちでないですか？
             <br />
-            メールアドレスを使って、1分ほどでアカウントを作成できます。
+            メールアドレスを使って、1 分ほどでアカウントを作成できます。
           </p>
           <Link href="/signup">
             <button className="mt-4 w-full py-2 px-4 border border-indigo-600 text-indigo-700 font-light rounded-lg hover:bg-indigo-50 transition duration-300 ease-in-out">
