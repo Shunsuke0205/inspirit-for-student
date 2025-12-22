@@ -48,7 +48,7 @@ export default function TroubleshootingGuide() {
             <li>入力したメールアドレスに誤りがある</li>
           </ul>
           <p className="mt-2">
-            いろいろ試してもダメな場合は、お手数ですが、<a href="mailto:en4singleparents@gmail.com" className="text-indigo-600 underline hover:text-indigo-800">en4singleparents@gmail.com</a>までメールをくださいますか？
+            いろいろ試してもダメな場合は、お手数ですが、<a href="mailto:shunsukehirata777@gmail.com" className="text-indigo-600 underline hover:text-indigo-800">shunsukehirata777@gmail.com</a>までメールをくださいますか？
             <span role="img" aria-label="sorry"> 🙇‍♂️</span>
           </p>
         </div>
