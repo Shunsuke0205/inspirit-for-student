@@ -4,7 +4,6 @@ import { LoginButton } from "./LoginButton";
 export const LoginComponent = () => {
   return (
     <div>
-      {/* ログインフォーム */}
       <form
         action={login}
         className="space-y-4"
