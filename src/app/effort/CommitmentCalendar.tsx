@@ -3,7 +3,7 @@ interface CommitmentCalendarProps {
   todayJst: string;
 }
 
-const CommitmentCalendar = ({ commitMap, todayJst } : CommitmentCalendarProps) => {
+export const CommitmentCalendar = ({ commitMap, todayJst } : CommitmentCalendarProps) => {
   const TODAY = new Date(todayJst);
   // let nextMonday = new Date(TODAY);
   // nextMonday.setDate(TODAY.getDate() + (8 - TODAY.getDay()) % 7);
@@ -100,5 +100,3 @@ const CommitmentCalendar = ({ commitMap, todayJst } : CommitmentCalendarProps) =
     </div>
   );
 };
-
-export default CommitmentCalendar;
