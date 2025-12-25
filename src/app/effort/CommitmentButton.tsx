@@ -37,28 +37,32 @@ export const CommitmentButton = ({
   const currentType = application.commitmentType;
   const isPotentialMiss = currentType === "potential_miss";
   const isCompleted = currentType === "completed";
-  const isDisabled = isPending || isSubmitting || isCompleted;
+  const isDisabled = isPending || isSubmitting || isAutoExecuting || isCompleted;
 
   const handleCommitment = async (type: CommitmentType) => {
     if (isCompleted || (currentType === "potential_miss" && type !== "touched")) {
       return;
     }
 
-    setIsSubmitting(true);
+    if (!isAutoExecuting) {
+      setIsSubmitting(true);
+    }
     setStatusMessage(null);
 
     return new Promise<void>((resolve) => {
       startTransition(async () => {
         const result = await recordCommitment(application.id, type);
+
+        setIsSubmitting(false);
+        resolve();
+
         if (result.error) {
           console.error("Error recording commitment:", result.error);
           setStatusMessage("コミットメントの記録に失敗しました。もう一度お試しください。");
         } else if (result.success) {
           setStatusMessage(`コミットメントを記録しました！`);
+          setTimeout(() => setStatusMessage(null), 4000);
         }
-        setIsSubmitting(false);
-        setTimeout(() => setStatusMessage(null), 8000);
-        resolve();
       });
     });
   };
@@ -89,7 +93,7 @@ export const CommitmentButton = ({
   }, [actionToExecute]);
 
   const getButtonText = (type: CommitmentType) => {
-    if (isSubmitting || isPending) {
+    if (isSubmitting || isAutoExecuting) {
       return "記録中・・・";
     }
     switch (type) {
