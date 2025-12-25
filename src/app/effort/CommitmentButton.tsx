@@ -21,14 +21,13 @@ export const CommitmentButton = ({
   autoExecuteAction = null,
   onAutoExecuteComplete,
 }: CommitmentButtonProps) => {
-  // const [currentCommitmentType, setCurrentCommitmentType] = useState<CommitmentType | null>(application.commitmentType);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentType = application.commitmentType;
   const isPotentialMiss = currentType === "potential_miss";
-  const isCompleted = currentType === "completed"; // 念のため
+  const isCompleted = currentType === "completed";
   const isDisabled = isPending || isSubmitting || isCompleted;
 
   const handleCommitment = async (type: CommitmentType) => {
@@ -45,13 +44,11 @@ export const CommitmentButton = ({
         console.error("Error recording commitment:", result.error);
         setStatusMessage("コミットメントの記録に失敗しました。もう一度お試しください。");
       } else if (result.success) {
-        // setCurrentCommitmentType(type);
         setStatusMessage(`コミットメントを記録しました！`);
       }
 
       setIsSubmitting(false);
       setTimeout(() => setStatusMessage(null), 4000);
-      // setStatusMessage(`Committed as ${type} for application ${applicationId}`);
     });
   };
 
@@ -76,7 +73,7 @@ export const CommitmentButton = ({
     <div key={application.id} className="mt-5">
       <h3 className="font-semibold text-gray-800 text-base">{application.itemName}</h3>
 
-      {/* ⚠️ 仮報告状態の表示 */}
+      {/* ⚠️ Temporary report state display */}
       <p className="text-xs font-medium text-gray-500">
         {isPotentialMiss &&
           <div>
@@ -90,18 +87,17 @@ export const CommitmentButton = ({
       )}
 
       <div className="mt-1 flex gap-2 md:gap-4 lg:gap-6">
-        {/* 1. 今日触れたボタン (常に可能) */}
+        {/* Touched today (always available) */}
         <button
           onClick={() => handleCommitment("touched")}
           className={`flex-1 py-3 text-white rounded-lg hover:bg-indigo-600 text-sm font-medium transition shadow-md bg-indigo-500
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled}
         >
-          {/* 今日触れた 🙌🏻 */}
           {getButtonText("touched")}
         </button>
 
-        {/* 2. 今日は触れないかもボタン (一度押したら色を変えて無効化) */}
+        {/* Potential miss button (changes color and disables after one press) */}
         <button
           onClick={() => handleCommitment("potential_miss")}
           className={`flex-1 py-3 rounded-lg text-sm font-medium transition shadow-md
@@ -109,19 +105,17 @@ export const CommitmentButton = ({
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled || isPotentialMiss}
         >
-          {/* 今日は触れないかも 🤔 */}
           {getButtonText("potential_miss")}
         </button>
           
-        {/* 3. もう完了ボタン (仮報告中、または完了後は押せない) */}
+        {/* Completed button (disabled during potential miss or after completion) */}
         <button
           onClick={() => handleCommitment("completed")}
           className={`py-3 px-3 text-white rounded-lg text-sm font-medium transition shadow-md 
                           ${isPotentialMiss || isCompleted ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 hover:bg-gray-600"}
                           ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={isDisabled || isPotentialMiss} // ★ 修正: 仮報告中、または完了後は無効化
+          disabled={isDisabled || isPotentialMiss}
         >
-          {/* 完了！✅ */}
           {getButtonText("completed")}
         </button>
       </div>
