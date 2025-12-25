@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { CommitmentType, recordCommitment } from "./actions";
 
 type Application = {
@@ -24,6 +24,7 @@ export const CommitmentButton = ({
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAutoExecuting, setIsAutoExecuting] = useState(false);
 
   const currentType = application.commitmentType;
   const isPotentialMiss = currentType === "potential_miss";
@@ -38,19 +39,36 @@ export const CommitmentButton = ({
     setIsSubmitting(true);
     setStatusMessage(null);
 
-    startTransition( async () => {
-      const result = await recordCommitment(application.id, type);
-      if (result.error) {
-        console.error("Error recording commitment:", result.error);
-        setStatusMessage("コミットメントの記録に失敗しました。もう一度お試しください。");
-      } else if (result.success) {
-        setStatusMessage(`コミットメントを記録しました！`);
-      }
-
-      setIsSubmitting(false);
-      setTimeout(() => setStatusMessage(null), 4000);
+    return new Promise<void>((resolve) => {
+      startTransition(async () => {
+        const result = await recordCommitment(application.id, type);
+        if (result.error) {
+          console.error("Error recording commitment:", result.error);
+          setStatusMessage("コミットメントの記録に失敗しました。もう一度お試しください。");
+        } else if (result.success) {
+          setStatusMessage(`コミットメントを記録しました！`);
+        }
+        setIsSubmitting(false);
+        setTimeout(() => setStatusMessage(null), 8000);
+        resolve();
+      });
     });
   };
+
+  const hasExecutedRef = useRef(false);
+
+  useEffect(() => {
+    if (autoExecuteAction && !hasExecutedRef.current) {
+      hasExecutedRef.current = true;
+      setIsAutoExecuting(true);
+      handleCommitment(autoExecuteAction).then(() => {
+        setIsAutoExecuting(false);
+        if (onAutoExecuteComplete) {
+          onAutoExecuteComplete();
+        }
+      });
+    }
+  }, [autoExecuteAction]);
 
   const getButtonText = (type: CommitmentType) => {
     if (isSubmitting || isPending) {
