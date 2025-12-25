@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useCommitmentContext } from "./CommitmentContext";
 import { CommitmentType } from "./actions";
 
@@ -9,17 +8,11 @@ import { CommitmentType } from "./actions";
 export const CommitmentSkeleton = () => {
   const { bufferedAction, setBufferedAction } = useCommitmentContext();
 
-  useEffect(() => {
-    console.log("✅ CommitmentSkeleton mounted (JS Ready)");
-  }, []);
 
   const handleReserve = (type: CommitmentType) => {
     if (bufferedAction) {
-      console.log("Already buffered:", bufferedAction);
       return;
     }
-
-    console.log("Buffering action:", type);
     setBufferedAction(type);
   };
 
