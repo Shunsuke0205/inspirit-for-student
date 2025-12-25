@@ -32,6 +32,28 @@ async function fetchCommitmentHistory(userId: string, days: number, todayJst: st
   return new Map<string, number>(data.map((item: CommitCountRecord) => [item.commit_date, item.commit_count]));
 }
 
+async function CalendarSection({ userId, todayJst }: { userId: string, todayJst: string }) {
+  const commitmentDateMap = await fetchCommitmentHistory(userId, 7 * 6, todayJst);
+
+  return (
+    <div className="mt-4 p-5 bg-white shadow-xl rounded-xl space-y-1">
+      <h2 className="text-xl font-bold text-gray-700">継続カレンダー</h2>
+      <p className="text-xs text-gray-500">（直近6週間の活動実績）</p>
+      <div className="flex flex-col sm:flex-row sm:space-x-6">
+        <div className="flex items-center gap-2 pt-2 flex-wrap">
+          <div className="w-3 h-3 bg-sky-400 rounded-sm"></div>
+          <span className="text-xs text-gray-600">コミットメントあり</span>
+        </div>
+        <div className="flex items-center gap-2 pt-2 flex-wrap">
+          <div className="w-3 h-3 bg-gray-100 rounded-sm border border-gray-400"></div>
+          <span className="text-xs text-gray-600">なし</span>
+        </div>
+      </div>
+      <CommitmentCalendar commitMap={commitmentDateMap} todayJst={todayJst} />
+    </div>
+  );
+}
+
 export default async function EffortPage() {
   const supabase = await createClient();
 
@@ -112,7 +134,6 @@ export default async function EffortPage() {
     console.log("No reporting applications found.");
   }
 
-  const commitmentDateMap = await fetchCommitmentHistory(userId, 7 * 6, jstDateData);
 
 
 
@@ -129,26 +150,6 @@ export default async function EffortPage() {
 
       {reportingApplicationData && reportingApplicationData.length > 0 && <CommitmentButtonList applications={reportingApplicationData} />}
 
-      {/* Commitment Calendar */}
-      <div className="mt-4 p-5 bg-white shadow-xl rounded-xl space-y-1">
-        <h2 className="text-xl font-bold text-gray-700">継続カレンダー</h2>
-        <p className="text-xs text-gray-500">（直近6週間の活動実績）</p>
-        <div className="flex flex-col sm:flex-row sm:space-x-6">
-          <div className="flex items-center gap-2 pt-2 flex-wrap">
-            <div className="w-3 h-3 bg-sky-400 rounded-sm"></div>
-            <span className="text-xs text-gray-600">コミットメントあり</span>
-          </div>
-          {/* <div className="flex items-center gap-2 pt-2 flex-wrap">
-            <div className="w-3 h-3 bg-yellow-300 rounded-sm"></div>
-            <span className="text-xs text-gray-600">ログインしたがコミットなし</span>
-          </div> */}
-          <div className="flex items-center gap-2 pt-2 flex-wrap">
-            <div className="w-3 h-3 bg-gray-100 rounded-sm border border-gray-400"></div>
-            <span className="text-xs text-gray-600">なし</span>
-          </div>
-        </div>
-        <CommitmentCalendar commitMap={commitmentDateMap} todayJst={jstDateData} />
-      </div>
       
     </div>
   );
