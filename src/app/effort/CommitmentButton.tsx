@@ -31,7 +31,7 @@ export const CommitmentButton = ({
   const isCompleted = currentType === "completed"; // 念のため
   const isDisabled = isPending || isSubmitting || isCompleted;
 
-  const handleCommitment = async (applicationId: string, type: CommitmentType) => {
+  const handleCommitment = async (type: CommitmentType) => {
     if (isCompleted || (currentType === "potential_miss" && type !== "touched")) {
       return;
     }
@@ -40,7 +40,7 @@ export const CommitmentButton = ({
     setStatusMessage(null);
 
     startTransition( async () => {
-      const result = await recordCommitment(applicationId, type);
+      const result = await recordCommitment(application.id, type);
       if (result.error) {
         console.error("Error recording commitment:", result.error);
         setStatusMessage("コミットメントの記録に失敗しました。もう一度お試しください。");
@@ -92,7 +92,7 @@ export const CommitmentButton = ({
       <div className="mt-1 flex gap-2 md:gap-4 lg:gap-6">
         {/* 1. 今日触れたボタン (常に可能) */}
         <button
-          onClick={() => handleCommitment(application.id, "touched")}
+          onClick={() => handleCommitment("touched")}
           className={`flex-1 py-3 text-white rounded-lg hover:bg-indigo-600 text-sm font-medium transition shadow-md bg-indigo-500
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled}
@@ -103,7 +103,7 @@ export const CommitmentButton = ({
 
         {/* 2. 今日は触れないかもボタン (一度押したら色を変えて無効化) */}
         <button
-          onClick={() => handleCommitment(application.id, "potential_miss")}
+          onClick={() => handleCommitment("potential_miss")}
           className={`flex-1 py-3 rounded-lg text-sm font-medium transition shadow-md
               ${isPotentialMiss ? "bg-yellow-200 text-gray-400 cursor-not-allowed" : "bg-yellow-600 text-white hover:bg-yellow-700"}
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
@@ -115,7 +115,7 @@ export const CommitmentButton = ({
           
         {/* 3. もう完了ボタン (仮報告中、または完了後は押せない) */}
         <button
-          onClick={() => handleCommitment(application.id, "completed")}
+          onClick={() => handleCommitment("completed")}
           className={`py-3 px-3 text-white rounded-lg text-sm font-medium transition shadow-md 
                           ${isPotentialMiss || isCompleted ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 hover:bg-gray-600"}
                           ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
