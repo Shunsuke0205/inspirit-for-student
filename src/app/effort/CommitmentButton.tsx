@@ -76,8 +76,10 @@ export const CommitmentButton = ({
 
       setTimeout(() => {
         handleCommitment(actionToExecute).then(() => {
-          console.log(`✅ Auto Execution Completed for ${application.itemName}`);
           setIsAutoExecuting(false);
+          if (bufferedAction && index === 0) {
+            setBufferedAction(null);
+          }
           if (onAutoExecuteComplete) {
             onAutoExecuteComplete();
           }
