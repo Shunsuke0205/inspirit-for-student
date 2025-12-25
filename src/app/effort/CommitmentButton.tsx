@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { CommitmentType, recordCommitment } from "./actions";
+import { useCommitmentContext } from "./CommitmentContext";
 
 type Application = {
   id: string;
@@ -13,6 +14,7 @@ type CommitmentButtonProps = {
   application: Application;
   autoExecuteAction?: CommitmentType | null;
   onAutoExecuteComplete?: () => void;
+  index?: number;
 }
 
 
@@ -20,11 +22,16 @@ export const CommitmentButton = ({
   application,
   autoExecuteAction = null,
   onAutoExecuteComplete,
+  index = 0,
 }: CommitmentButtonProps) => {
+  const { bufferedAction, setBufferedAction } = useCommitmentContext();
+
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAutoExecuting, setIsAutoExecuting] = useState(false);
+
+  const actionToExecute = autoExecuteAction || (index === 0 && bufferedAction ? bufferedAction : null);
 
   const currentType = application.commitmentType;
   const isPotentialMiss = currentType === "potential_miss";
@@ -68,7 +75,7 @@ export const CommitmentButton = ({
         }
       });
     }
-  }, [autoExecuteAction]);
+  }, [actionToExecute]);
 
   const getButtonText = (type: CommitmentType) => {
     if (isSubmitting || isPending) {

@@ -3,7 +3,6 @@ import { CommitmentButton } from "./CommitmentButton";
 import { redirect } from "next/navigation";
 
 
-// export default async function CommitmentButtonList({ applications } : { applications: { id: string; item_name: string }[] }) {
 export const CommitmentButtonList = async ({ applications } : { applications: { id: string; item_name: string }[] }) => {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -44,17 +43,20 @@ export const CommitmentButtonList = async ({ applications } : { applications: { 
       </div>
 
 
-      {applications.map((app) => {
+      {applications.map((app, index) => {
         if (todayCommitmentsData?.some(c => c.application_id === app.id && c.commitment_type !== "potential_miss")) {
           return null; // Skip rendering this application
         }
         return (
           <div key={app.id} >
-            <CommitmentButton application={{
-              id: app.id,
-              itemName: app.item_name,
-              commitmentType: todayCommitmentsData?.find(c => c.application_id === app.id)?.commitment_type || null
-            }} />
+            <CommitmentButton 
+              application={{
+                id: app.id,
+                itemName: app.item_name,
+                commitmentType: todayCommitmentsData?.find(c => c.application_id === app.id)?.commitment_type || null
+              }} 
+              index={index}
+            />
           </div>
         );
       })}
