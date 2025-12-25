@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { redirect } from "next/navigation";
+
 import { createClient } from "@/utils/supabase/server";
 import { CommitmentButtonList } from "./CommitmentButtonList";
-import { redirect } from "next/navigation";
 import { CommitmentCalendar } from "./CommitmentCalendar";
 import { CommitmentProvider } from "./CommitmentContext";
 
@@ -32,6 +34,14 @@ async function fetchCommitmentHistory(userId: string, days: number, todayJst: st
   };
   return new Map<string, number>(data.map((item: CommitCountRecord) => [item.commit_date, item.commit_count]));
 }
+
+const CalendarFallback = () => {
+  return (
+    <div className="mt-4 p-5 bg-white shadow-xl rounded-xl space-y-1 h-64 flex flex-col items-center justify-center text-gray-400">
+      <p>カレンダーを読み込んでいます...</p>
+    </div>
+  );
+};
 
 async function CommitmentSection({ userId }: { userId: string }) {
   const supabase = await createClient();
@@ -167,6 +177,10 @@ export default async function EffortPage() {
           <br className="md:hidden" />
           今日の活動を記録しましょう。
         </p>
+
+        <Suspense fallback={<CalendarFallback />}>
+          <CalendarSection userId={userId} todayJst={jstDateData} />
+        </Suspense>
         
       </div>
     </CommitmentProvider>
