@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { CommitmentButton } from "./commitmentButton";
+import { CommitmentButton } from "./CommitmentButton";
 import { redirect } from "next/navigation";
 
 

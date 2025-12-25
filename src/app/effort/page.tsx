@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
-import { CommitmentButtonList } from "./commitmentButtonList";
+import { CommitmentButtonList } from "./CommitmentButtonList";
 import { redirect } from "next/navigation";
-import CommitmentCalendar from "./commitmentCalendar";
+import CommitmentCalendar from "./CommitmentCalendar";
 
 async function fetchCommitmentHistory(userId: string, days: number, todayJst: string) {
   const supabase = await createClient();
