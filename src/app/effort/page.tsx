@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
-import CommitmentButtonList from "./commitmentButtonList";
+import { CommitmentButtonList } from "./commitmentButtonList";
 import { redirect } from "next/navigation";
 import CommitmentCalendar from "./commitmentCalendar";
 

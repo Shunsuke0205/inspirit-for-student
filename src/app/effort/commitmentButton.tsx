@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { CommitmentType, recordCommitment } from "./actions";
 
 type Application = {
@@ -11,7 +11,7 @@ type Application = {
 
 
 
-const CommitmentButton = ({ application } : { application: Application }) => {
+export const CommitmentButton = ({ application } : { application: Application }) => {
   // const [currentCommitmentType, setCurrentCommitmentType] = useState<CommitmentType | null>(application.commitmentType);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -119,5 +119,3 @@ const CommitmentButton = ({ application } : { application: Application }) => {
     </div>
   );
 };
-
-export default CommitmentButton;

@@ -1,5 +1,3 @@
-import React from "react";
-
 interface CommitmentCalendarProps {
   commitMap: Map<string, number>;
   todayJst: string;

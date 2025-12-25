@@ -1,9 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
-import CommitmentButton from "./commitmentButton";
+import { CommitmentButton } from "./commitmentButton";
 import { redirect } from "next/navigation";
 
 
-export default async function CommitmentButtonList({ applications } : { applications: { id: string; item_name: string }[] }) {
+// export default async function CommitmentButtonList({ applications } : { applications: { id: string; item_name: string }[] }) {
+export const CommitmentButtonList = async ({ applications } : { applications: { id: string; item_name: string }[] }) => {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
