@@ -45,7 +45,6 @@ const CalendarFallback = () => {
 };
 
 async function CommitmentSection({ userId }: { userId: string }) {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
   const supabase = await createClient();
 
   const { data: reportingApplicationData, error: reportingApplicationError } = await supabase
@@ -64,7 +63,6 @@ async function CommitmentSection({ userId }: { userId: string }) {
 }
 
 async function CalendarSection({ userId, todayJst }: { userId: string, todayJst: string }) {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
   const commitmentDateMap = await fetchCommitmentHistory(userId, 7 * 6, todayJst);
 
   return (
