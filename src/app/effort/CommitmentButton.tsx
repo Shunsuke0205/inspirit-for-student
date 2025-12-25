@@ -9,9 +9,18 @@ type Application = {
   commitmentType: CommitmentType | null;
 };
 
+type CommitmentButtonProps = {
+  application: Application;
+  autoExecuteAction?: CommitmentType | null;
+  onAutoExecuteComplete?: () => void;
+}
 
 
-export const CommitmentButton = ({ application } : { application: Application }) => {
+export const CommitmentButton = ({
+  application,
+  autoExecuteAction = null,
+  onAutoExecuteComplete,
+}: CommitmentButtonProps) => {
   // const [currentCommitmentType, setCurrentCommitmentType] = useState<CommitmentType | null>(application.commitmentType);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
