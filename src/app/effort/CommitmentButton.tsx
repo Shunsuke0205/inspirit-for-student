@@ -108,12 +108,11 @@ export const CommitmentButton = ({
       <h3 className="font-semibold text-gray-800 text-base">{application.itemName}</h3>
 
       {/* ⚠️ Temporary report state display */}
-      <p className="text-xs font-medium text-gray-500">
-        {isPotentialMiss &&
-          <div>
-            「触れた」に更新することもできます。
-          </div>}
-      </p>
+      {isPotentialMiss && (
+        <p className="text-xs font-medium text-gray-500">
+          「触れた」に更新することもできます。
+        </p>
+      )}
       {statusMessage && (
         <p className="text-xs text-green-600 font-medium">
           {statusMessage}
