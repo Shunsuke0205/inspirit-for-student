@@ -33,6 +33,24 @@ async function fetchCommitmentHistory(userId: string, days: number, todayJst: st
   return new Map<string, number>(data.map((item: CommitCountRecord) => [item.commit_date, item.commit_count]));
 }
 
+async function CommitmentSection({ userId }: { userId: string }) {
+  const supabase = await createClient();
+
+  const { data: reportingApplicationData, error: reportingApplicationError } = await supabase
+    .from("scholarship_applications")
+    .select("id, item_name")
+    .eq("user_id", userId)
+    .eq("status", "reporting");
+
+  if (reportingApplicationError) {
+    console.error("Error fetching reporting applications:", reportingApplicationError.message);
+    return <div>データの取得に失敗しました</div>;
+  }
+
+  const apps = reportingApplicationData || [];
+  return <CommitmentButtonList applications={apps} />;
+}
+
 async function CalendarSection({ userId, todayJst }: { userId: string, todayJst: string }) {
   const commitmentDateMap = await fetchCommitmentHistory(userId, 7 * 6, todayJst);
 
@@ -149,8 +167,6 @@ export default async function EffortPage() {
           <br className="md:hidden" />
           今日の活動を記録しましょう。
         </p>
-        {reportingApplicationData && reportingApplicationData.length > 0 && <CommitmentButtonList applications={reportingApplicationData} />}
-
         
       </div>
     </CommitmentProvider>
