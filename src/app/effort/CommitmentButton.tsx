@@ -32,6 +32,14 @@ export const CommitmentButton = ({
   const [isAutoExecuting, setIsAutoExecuting] = useState(false);
 
   const actionToExecute = autoExecuteAction || (index === 0 && bufferedAction ? bufferedAction : null);
+  
+  useEffect(() => {
+    // マウントされた瞬間に状況を出力
+    console.log(`🔘 Button Mounted: ${application.itemName}`);
+    console.log(`   - Index: ${index}`);
+    console.log(`   - BufferedAction (Context):`, bufferedAction);
+    console.log(`   - ActionToExecute (Decision):`, actionToExecute);
+  }, []); // 初回のみ実行
 
   const currentType = application.commitmentType;
   const isPotentialMiss = currentType === "potential_miss";
@@ -65,15 +73,29 @@ export const CommitmentButton = ({
   const hasExecutedRef = useRef(false);
 
   useEffect(() => {
-    if (autoExecuteAction && !hasExecutedRef.current) {
+    console.log(`👀 Effect Triggered for ${application.itemName}`);
+    console.log(`   - Action: ${actionToExecute}`);
+    console.log(`   - HasExecuted: ${hasExecutedRef.current}`);
+
+    if (actionToExecute) {
+      if (hasExecutedRef.current) {
+        console.log(`🚫 Skipped execution because Ref is true.`);
+        return;
+      }
+      console.log(`🚀 Auto Executing for ${application.itemName}:`, actionToExecute);
+
       hasExecutedRef.current = true;
       setIsAutoExecuting(true);
-      handleCommitment(autoExecuteAction).then(() => {
-        setIsAutoExecuting(false);
-        if (onAutoExecuteComplete) {
-          onAutoExecuteComplete();
-        }
-      });
+      setTimeout(() => {
+
+        handleCommitment(actionToExecute).then(() => {
+          console.log(`✅ Auto Execution Completed for ${application.itemName}`);
+          setIsAutoExecuting(false);
+          if (onAutoExecuteComplete) {
+            onAutoExecuteComplete();
+          }
+        });
+      }, 1000);
     }
   }, [actionToExecute]);
 
