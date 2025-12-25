@@ -22,7 +22,7 @@ export const CommitmentSkeleton = () => {
 
     if (isSelected) return `${baseColorClass} opacity-70 ring-2 ring-offset-1 ring-indigo-500`;
     if (isOtherSelected) return `${baseColorClass} opacity-30 cursor-not-allowed`;
-    
+
     return `${baseColorClass} hover:opacity-80`;
   };
 
@@ -54,7 +54,7 @@ export const CommitmentSkeleton = () => {
           >
             今日は触れないかも 🤔
           </button>
-            
+
           <button
             onClick={() => handleReserve("completed")}
             className={`py-3 px-3 text-white rounded-lg text-sm font-medium transition shadow-md ${getButtonClass("completed", "bg-gray-500")}`}
