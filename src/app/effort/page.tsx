@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { CommitmentButtonList } from "./CommitmentButtonList";
 import { CommitmentCalendar } from "./CommitmentCalendar";
 import { CommitmentProvider } from "./CommitmentContext";
+import { CommitmentSkeleton } from "./CommitmentSkeleton";
 
 async function fetchCommitmentHistory(userId: string, days: number, todayJst: string) {
   const supabase = await createClient();
@@ -44,6 +45,7 @@ const CalendarFallback = () => {
 };
 
 async function CommitmentSection({ userId }: { userId: string }) {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   const supabase = await createClient();
 
   const { data: reportingApplicationData, error: reportingApplicationError } = await supabase
@@ -62,6 +64,7 @@ async function CommitmentSection({ userId }: { userId: string }) {
 }
 
 async function CalendarSection({ userId, todayJst }: { userId: string, todayJst: string }) {
+  await new Promise((resolve) => setTimeout(resolve, 10000));
   const commitmentDateMap = await fetchCommitmentHistory(userId, 7 * 6, todayJst);
 
   return (
@@ -177,6 +180,10 @@ export default async function EffortPage() {
           <br className="md:hidden" />
           今日の活動を記録しましょう。
         </p>
+
+        <Suspense fallback={<CommitmentSkeleton />}>
+          <CommitmentSection userId={userId} />
+        </Suspense>
 
         <Suspense fallback={<CalendarFallback />}>
           <CalendarSection userId={userId} todayJst={jstDateData} />
