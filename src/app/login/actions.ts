@@ -7,8 +7,8 @@ import { createClient } from '@/utils/supabase/server'
 
 
 function redirectWithError(message: string): never {
-    console.error("Authentication Error:", message);
-    redirect("/error");
+  console.error("Authentication Error:", message);
+  redirect("/error");
 }
 
 export async function login(formData: FormData) {
@@ -33,7 +33,7 @@ export async function login(formData: FormData) {
   });
 
   if (authError) {
-    redirect('/error')
+    redirectWithError("Authentication failed: " + authError.message);
   }
   if (!authData.user) {
     redirectWithError("Authentication failed. No user data returned.");
@@ -80,7 +80,7 @@ export async function signup(formData: FormData) {
   })
 
   if (error) {
-    redirect('/error')
+    redirectWithError("Signup failed: " + error.message);
   }
 
   revalidatePath('/', 'layout')
