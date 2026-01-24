@@ -129,7 +129,7 @@ export const CommitmentButton = ({
         {/* Touched today (always available) */}
         <button
           onClick={() => handleCommitment("touched")}
-          className={`flex-1 py-3 text-white rounded-lg hover:bg-indigo-600 text-sm md:text-base font-medium transition shadow-md bg-indigo-500
+          className={`flex-1 py-3 text-white rounded-lg hover:bg-indigo-600 text-sm md:text-base font-medium transition shadow-md bg-indigo-500 cursor-pointer
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled}
         >
@@ -139,7 +139,7 @@ export const CommitmentButton = ({
         {/* Potential miss button (changes color and disables after one press) */}
         <button
           onClick={() => handleCommitment("potential_miss")}
-          className={`flex-1 py-3 rounded-lg text-xs md:text-base font-medium transition shadow-md
+          className={`flex-1 py-3 rounded-lg text-xs md:text-base font-medium transition shadow-md cursor-pointer
               ${isPotentialMiss ? "bg-yellow-200 text-gray-400 cursor-not-allowed" : "bg-yellow-600 text-white hover:bg-yellow-700"}
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled || isPotentialMiss}
@@ -150,7 +150,7 @@ export const CommitmentButton = ({
         {/* Completed button (disabled during potential miss or after completion) */}
         <button
           onClick={() => handleCommitment("completed")}
-          className={`py-3 px-3 text-white rounded-lg text-xs md:text-base font-medium transition shadow-md
+          className={`py-3 px-3 text-white rounded-lg text-xs md:text-base font-medium transition shadow-md cursor-pointer
                           ${isPotentialMiss || isCompleted ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 hover:bg-gray-600"}
                           ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled || isPotentialMiss}
