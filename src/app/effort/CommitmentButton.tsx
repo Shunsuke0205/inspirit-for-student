@@ -139,7 +139,7 @@ export const CommitmentButton = ({
         {/* Potential miss button (changes color and disables after one press) */}
         <button
           onClick={() => handleCommitment("potential_miss")}
-          className={`flex-1 py-3 rounded-lg text-sm font-medium transition shadow-md
+          className={`flex-1 py-3 rounded-lg text-xs md:text-base font-medium transition shadow-md
               ${isPotentialMiss ? "bg-yellow-200 text-gray-400 cursor-not-allowed" : "bg-yellow-600 text-white hover:bg-yellow-700"}
               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={isDisabled || isPotentialMiss}
