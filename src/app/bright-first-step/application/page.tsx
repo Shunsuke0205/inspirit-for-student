@@ -138,9 +138,14 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
       }
 
       const url = new URL(formData.amazon_wishlist_url);
-      // ドメインが許可リストに含まれているかチェック
+      if (url.protocol !== "https:") {
+        throw new Error("URL must start with https://");
+      }
       if (!ALLOWED_AMAZON_DOMAINS.includes(url.hostname)) {
-        throw new Error("申し訳ありませんが、AmazonのURLが正しくないようです。");
+        throw new Error("Sorry, the Amazon URL appears to be incorrect.");
+      }
+      if (!url.pathname.includes("wishlist")) {
+        throw new Error("The URL does not appear to be an Amazon wishlist. Please check the URL.");
       }
 
       const supabase = createClient();
