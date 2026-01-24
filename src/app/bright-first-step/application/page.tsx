@@ -174,8 +174,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
       }
 
       setSubmitSuccess("申請が正常に投稿されました！");
-      // 成功後、任意のページにリダイレクト
-      // router.push("/dashboard/my-applications"); // 例: マイ申請一覧ページなど
+      redirect("/bright-first-step");
     } catch (err) {
       console.error("Application submission error:", err);
       setSubmitError("不明なエラーが発生しました。");
