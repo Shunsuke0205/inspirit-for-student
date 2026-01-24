@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 
 
@@ -56,11 +57,11 @@ const useAuthorization = () => {
   return { userId, isAuthorized, isLoading, error };
 };
 
-// 投稿フォームコンポーネント
+// Application form component
 const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
   // const router = useRouter();
 
-  // フォームの入力値を管理するstate
+  // State to manage form input values
   const [formData, setFormData] = useState({
     title: "",
     item_name: "",
@@ -74,14 +75,14 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
     report_interval_days: 4,
   });
 
-  // フォーム送信中の状態
+  // State to manage submission status 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // エラーメッセージ
+  // State to manage error messages to display
   const [submitError, setSubmitError] = useState<string | null>(null);
-  // 成功メッセージ
+  // State to manage success messages
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
-  // 許可するAmazonのドメインリスト
+  // Allowed Amazon domains whitelist
   const ALLOWED_AMAZON_DOMAINS = [
     "www.amazon.jp",
     "amazon.jp",
@@ -91,7 +92,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
     "amazon.com",
   ];
 
-  // 入力フィールドの変更ハンドラ
+  // Input field change handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -125,16 +126,16 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
     }));
   };
 
-  // フォーム送信ハンドラ
+  // Form submission handler
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault(); // ページの再読み込みを防ぐ
+    e.preventDefault(); // Prevent page reload
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(null);
 
     try {
       if (!userId) {
-        throw new Error("ユーザーIDが取得できません。ログインし直してください。");
+        throw new Error("User ID could not be retrieved. Please log in again.");
       }
 
       const url = new URL(formData.amazon_wishlist_url);
@@ -157,20 +158,20 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
           item_name: formData.item_name,
           item_description: formData.item_description,
           item_price: formData.item_price,
-          requested_amount: formData.item_price, // requested_amountはitem_priceと同じ金額に固定
+          requested_amount: formData.item_price, // set requested_amount to item_price
           enthusiasm: formData.enthusiasm,
           long_term_goal: formData.long_term_goal,
           amazon_wishlist_url: formData.amazon_wishlist_url,
           entire_report_period_days: formData.entire_report_period_days,
           report_interval_days: formData.entire_report_period_days,
           status: "active"
-          // created_at, status, is_deleted, last_reported_at はDBのデフォルト値またはSupabaseで自動設定
-          // last_reported_at は null で挿入される
+          // created_at, status, is_deleted, last_reported_at are set to default values in the DB or automatically by Supabase
+          // last_reported_at is null initially
         })
-        .select(); // 挿入されたデータを返す
+        .select(); // Return the inserted data
 
       if (error) {
-        throw new Error(`投稿に失敗しました: ${error.message}`);
+        throw new Error(`Failed to submit application: ${error.message}`);
       }
 
       setSubmitSuccess("申請が正常に投稿されました！");
@@ -388,11 +389,9 @@ const Page = () => {
   }
 
   if (!isAuthorized) {
-    // 認可されていない場合の表示（エラーメッセージはuseAuthorizationで既に表示済み）
     return (
       <div>
         <p>このページにアクセスする権限がありません。</p>
-        {/* 必要であれば、ログインページへのリンクなどをここに表示 */}
       </div>
     );
   }
