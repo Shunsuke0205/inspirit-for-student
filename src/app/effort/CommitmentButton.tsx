@@ -97,7 +97,7 @@ export const CommitmentButton = ({
       return "記録中・・・";
     }
     switch (type) {
-      case "touched": return "今日触れた 🙌🏻";
+      case "touched": return "今日触れた 👍";
       case "potential_miss": return "今日は触れないかも 🤔";
       case "completed": return "完了！✅";
       default: return "記録";
