@@ -59,6 +59,18 @@ async function CommitmentSection({ userId }: { userId: string }) {
   }
 
   const apps = reportingApplicationData || [];
+  const is_empty = apps.length === 0;
+  if (is_empty) {
+    return (
+      <div className="mt-8 p-5 bg-white shadow-xl rounded-xl border-t-4 border-green-500 text-center">
+        <h2 className="text-sm md:text-base font-bold text-gray-700">いま報告する商品はありません。</h2>
+        <Link href="/" className="mt-4 text-sm md:text-base inline-block text-indigo-600 px-4 py-2 rounded-md hover:bg-indigo-400 hover:text-white transition border border-indigo-600">
+          ホームに戻る
+        </Link>
+      </div>
+    );
+  }
+
   return <CommitmentButtonList applications={apps} />;
 }
 
