@@ -1,9 +1,9 @@
-'use server'
+"use server";
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from "@/lib/supabase/server";
 
 
 function redirectWithError(message: string): never {
@@ -50,8 +50,8 @@ export async function login(formData: FormData) {
     console.error("Failed to update last_login_at:", updateError);
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
 export async function signup(formData: FormData) {
@@ -74,8 +74,8 @@ export async function signup(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: 'https://inspirit-for-student.vercel.app',
-      data: { role: 'student'}
+      emailRedirectTo: "https://inspirit-for-student.vercel.app",
+      data: { role: "student" }
     }
   })
 
@@ -83,8 +83,8 @@ export async function signup(formData: FormData) {
     redirectWithError("Signup failed: " + error.message);
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/signup/guide')
+  revalidatePath("/", "layout");
+  redirect("/signup/guide");
 }
 
 export async function logout() {
@@ -96,7 +96,7 @@ export async function logout() {
     redirectWithError("Logout failed: " + error.message);
   }
 
-  revalidatePath('/login', 'layout');
-  redirect('/login');
+  revalidatePath("/login", "layout");
+  redirect("/login");
 }
 

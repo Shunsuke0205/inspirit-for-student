@@ -1,6 +1,5 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import React from "react";
 import { ActivityReportForm } from "./post/page";
 
 // 活動報告の型定義

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { CommitmentButtonList } from "./CommitmentButtonList";
 import { CommitmentCalendar } from "./CommitmentCalendar";
 import { CommitmentProvider } from "./CommitmentContext";

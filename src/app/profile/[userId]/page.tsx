@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "./LogoutButton";
 
 export default async function UserProfilePage({

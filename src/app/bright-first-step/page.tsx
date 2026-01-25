@@ -1,7 +1,6 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
 
 type ScholarshipApplication = {
   id: string;
