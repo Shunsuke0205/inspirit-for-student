@@ -36,7 +36,7 @@ export const CommitmentSkeleton = () => {
       {/* product card skeleton */}
       <div className="mt-5">
         {/* product name: loading bar */}
-        <div className="h-6 w-2/3 bg-gray-200 rounded animate-pulse mb-2"></div>
+        <div className="h-5 w-2/3 bg-gray-200 rounded animate-pulse mb-2"></div>
 
 
         {/* buttons: interactively operable */}
