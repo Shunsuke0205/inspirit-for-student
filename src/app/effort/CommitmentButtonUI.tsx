@@ -16,9 +16,17 @@ const VARIANT_LABELS: Record<ButtonVariant, string> = {
 };
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
-  touched: "bg-indigo-500",
-  potential_miss: "bg-yellow-600",
-  completed: "bg-gray-500",
+  touched: "flex-1 py-3 text-white text-sm md:text-base font-medium rounded-lg bg-indigo-500 shadow-md transition hover:bg-indigo-600",
+  potential_miss: `flex-1 py-3 rounded-lg text-xs md:text-base font-medium transition shadow-md bg-yellow-600 text-white hover:bg-yellow-700`,
+          // className={`flex-1 py-3 rounded-lg text-xs md:text-base font-medium transition shadow-md cursor-pointer
+          //     ${isPotentialMiss ? "bg-yellow-200 text-gray-400 cursor-not-allowed" : "bg-yellow-600 text-white hover:bg-yellow-700"}
+          //     ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+
+  completed: "px-3 py-3 text-white text-sm font-medium rounded-lg bg-gray-500 shadow-md transition hover:bg-gray-600"
+          // className={`py-3 px-3 text-white rounded-lg text-xs md:text-base font-medium transition shadow-md cursor-pointer
+          //                 ${isPotentialMiss || isCompleted ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 hover:bg-gray-600"}
+          //                 ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+            // className={`py-3 px-3 text-white rounded-lg text-sm font-medium transition shadow-md ${getButtonClass("completed", "bg-gray-500")}`}
 };
 
 export const CommitmentButtonUI = ({
