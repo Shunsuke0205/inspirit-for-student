@@ -17,15 +17,6 @@ export const CommitmentSkeleton = () => {
     setBufferedAction(type);
   };
 
-  const getButtonClass = (type: CommitmentType, baseColorClass: string) => {
-    const isSelected = bufferedAction === type;
-    const isOtherSelected = bufferedAction !== null && !isSelected;
-
-    if (isSelected) return `${baseColorClass} opacity-70 ring-2 ring-offset-1 ring-indigo-500`;
-    if (isOtherSelected) return `${baseColorClass} opacity-30 cursor-not-allowed`;
-
-    return `${baseColorClass} hover:opacity-80`;
-  };
 
   return (
     <div>
@@ -42,12 +33,6 @@ export const CommitmentSkeleton = () => {
 
         {/* buttons: interactively operable */}
         <div className="mt-1 flex gap-2 md:gap-4 lg:gap-6">
-          {/* <button
-            onClick={() => handleReserve("touched")}
-            className={`flex-1 py-3 text-white rounded-lg text-sm font-medium transition shadow-md ${getButtonClass("touched", "bg-indigo-500")}`}
-          >
-            今日触れた 🙌🏻
-          </button> */}
           <CommitmentButtonUI
             variant="touched"
             onClick={() => handleReserve("touched")}
@@ -55,12 +40,6 @@ export const CommitmentSkeleton = () => {
             isLoading={false}
           />
 
-          {/* <button
-            onClick={() => handleReserve("potential_miss")}
-            className={`flex-1 py-3 text-white rounded-lg text-sm font-medium transition shadow-md ${getButtonClass("potential_miss", "bg-yellow-600")}`}
-          >
-            今日は触れないかも 🤔
-          </button> */}
           <CommitmentButtonUI
             variant="potential_miss"
             onClick={() => handleReserve("potential_miss")}
@@ -68,12 +47,6 @@ export const CommitmentSkeleton = () => {
             isLoading={false}
           />
 
-          {/* <button
-            onClick={() => handleReserve("completed")}
-            className={`py-3 px-3 text-white rounded-lg text-sm font-medium transition shadow-md ${getButtonClass("completed", "bg-gray-500")}`}
-          >
-            完了！✅
-          </button> */}
           <CommitmentButtonUI
             variant="completed"
             onClick={() => handleReserve("completed")}

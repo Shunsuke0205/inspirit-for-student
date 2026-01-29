@@ -93,17 +93,6 @@ export const CommitmentButton = ({
     }
   }, [actionToExecute]);
 
-  const getButtonText = (type: CommitmentType) => {
-    if (isSubmitting || isAutoExecuting) {
-      return "記録中・・・";
-    }
-    switch (type) {
-      case "touched": return "今日触れた 👍";
-      case "potential_miss": return "今日は触れないかも 🤔";
-      case "completed": return "完了！✅";
-      default: return "記録";
-    }
-  };
 
   if (isCompleted) {
     return null;
@@ -128,14 +117,6 @@ export const CommitmentButton = ({
 
       <div className="mt-1 flex gap-2 md:gap-4 lg:gap-6">
         {/* Touched today (always available) */}
-        {/* <button
-          onClick={() => handleCommitment("touched")}
-          className={`flex-1 py-3 text-white rounded-lg hover:bg-indigo-600 text-sm md:text-base font-medium transition shadow-md bg-indigo-500 cursor-pointer
-              ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={isDisabled}
-        >
-          {getButtonText("touched")}
-        </button> */}
         <CommitmentButtonUI
           variant="touched"
           onClick={() => handleCommitment("touched")}
@@ -144,15 +125,6 @@ export const CommitmentButton = ({
         />
 
         {/* Potential miss button (changes color and disables after one press) */}
-        {/* <button
-          onClick={() => handleCommitment("potential_miss")}
-          className={`flex-1 py-3 rounded-lg text-xs md:text-base font-medium transition shadow-md cursor-pointer
-              ${isPotentialMiss ? "bg-yellow-200 text-gray-400 cursor-not-allowed" : "bg-yellow-600 text-white hover:bg-yellow-700"}
-              ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={isDisabled || isPotentialMiss}
-        >
-          {getButtonText("potential_miss")}
-        </button> */}
         <CommitmentButtonUI
           variant="potential_miss"
           onClick={() => handleCommitment("potential_miss")}
@@ -161,15 +133,6 @@ export const CommitmentButton = ({
         />
           
         {/* Completed button (disabled during potential miss or after completion) */}
-        {/* <button
-          onClick={() => handleCommitment("completed")}
-          className={`py-3 px-3 text-white rounded-lg text-xs md:text-base font-medium transition shadow-md cursor-pointer
-                          ${isPotentialMiss || isCompleted ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 hover:bg-gray-600"}
-                          ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={isDisabled || isPotentialMiss}
-        >
-          {getButtonText("completed")}
-        </button> */}
         <CommitmentButtonUI
           variant="completed"
           onClick={() => handleCommitment("completed")}
