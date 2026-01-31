@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./Header";
+import PushInitializer from "@/components/PushInitializer";
 
 
 export const metadata: Metadata = {
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <PushInitializer />
         <Header />
         <main>
           {children}
