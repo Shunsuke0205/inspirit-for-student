@@ -18,36 +18,6 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray;
 }
 
-/* export default function PushInitializer() {
-  useEffect(() => {
-    if (typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window) {
-      navigator.serviceWorker.register("/sw.js").then(async (registration) => {
-        console.log("Service Worker registered");
-
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          try {
-            const subscription = await registration.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
-            });
-
-            console.log("↓↓↓ テスト送信用の宛先情報 ↓↓↓");
-            console.log(JSON.stringify(subscription));
-            console.log("↑↑↑↑↑↑");
-            
-          } catch (err) {
-            console.error("Failed to subscribe:", err);
-          }
-        }
-      });
-    }
-  }, []);
-
-  return null;
-} */
-
-// ... 前略
 export default function PushInitializer() {
   const [subscriptionJson, setSubscriptionJson] = useState<string | null>(null);
 
