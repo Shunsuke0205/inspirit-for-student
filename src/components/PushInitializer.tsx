@@ -1,5 +1,6 @@
 "use client";
 
+import { saveSubscription } from "@/lib/notifications";
 import { useState } from "react";
 
 const PUBLIC_VAPID_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
@@ -62,6 +63,17 @@ export default function PushInitializer() {
         applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
       });
       setSubscriptionJson(JSON.stringify(subscription));
+
+      const subscriptionJSON = subscription.toJSON();
+      if (subscriptionJSON.endpoint && subscriptionJSON.keys) {
+        await saveSubscription({
+          endpoint: subscriptionJSON.endpoint,
+          keys: {
+            p256dh: subscriptionJSON.keys.p256dh!,
+            auth: subscriptionJSON.keys.auth!,
+          }
+        });
+      }
     }
   };
 
