@@ -3,7 +3,7 @@ self.addEventListener('push', function(event) {
   const count = data.count || 1;
 
   if (navigator.setAppBadge) {
-    navigator.setAppBadge(0).catch((error) => {
+    navigator.setAppBadge().catch((error) => {
       console.error('Badge update failed:', error);
     });
   }
