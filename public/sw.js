@@ -1,16 +1,16 @@
 self.addEventListener('push', function(event) {
-  const data = event.data ? event.data.json() : { count: 1 };
-  const count = data.count || 1;
+  // const data = event.data ? event.data.json() : { count: 1 };
+  // const count = data.count || 1;
 
   if (navigator.setAppBadge) {
-    navigator.setAppBadge().catch((error) => {
+    navigator.setAppBadge(1).catch((error) => {
       console.error('Badge update failed:', error);
     });
   }
 
   const title = 'Inspirit Notification';
   const options = {
-    body: `未読が ${count} 件あります`,
+    body: "You are supposed to push the commitment buttons.",
     icon: '/apple-touch-icon.png',
     badge: '/apple-touch-icon.png'
   };
