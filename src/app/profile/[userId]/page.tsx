@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "./LogoutButton";
+import PushSettingsButton from "@/components/PushSettingsButton";
 
 export default async function UserProfilePage({
   params,
@@ -21,6 +22,7 @@ export default async function UserProfilePage({
       <div>
         { userData.user.id === userId ? <LogoutButton /> : null }
       </div>
+      <PushSettingsButton />
       <div className="mt-8">
         開発者の平田駿輔です。<br />
         恐れ入りますが、このページを作り込むのはまだまだ先になります。🙇🏻‍♀️
