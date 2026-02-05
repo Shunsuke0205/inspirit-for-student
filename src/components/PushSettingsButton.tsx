@@ -1,7 +1,7 @@
 "use client";
 
 import { saveSubscription } from "@/lib/notifications";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const PUBLIC_VAPID_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
 
@@ -18,50 +18,83 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray;
 }
 
-export default function PushInitializer() {
-  const [subscriptionJson, setSubscriptionJson] = useState<string | null>(null);
+export default function PushSettingsButton() {
+  const [status, setStatus] = useState<"loading" | "default" | "granted" | "denied">("loading");
 
-  const startRegistration = async () => {
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) {
+      setStatus("denied");
+      return;
+    }
+    if (Notification.permission === "granted") {
+      setStatus("granted");
+    } else if (Notification.permission === "denied") {
+      setStatus("denied");
+    } else {
+      setStatus("default");
+    }
+  }, []);
+
+  const handleSubscribe = async () => {
     if (!("serviceWorker" in navigator)) return;
 
-    const registration = await navigator.serviceWorker.register("/sw.js");
-    const permission = await Notification.requestPermission();
-    
-    if (permission === "granted") {
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
-      });
-      setSubscriptionJson(JSON.stringify(subscription));
+    try {
+      const registration = await navigator.serviceWorker.register("/sw.js");
+      const permission = await Notification.requestPermission();
 
-      const subscriptionJSON = subscription.toJSON();
-      if (subscriptionJSON.endpoint && subscriptionJSON.keys) {
-        await saveSubscription({
-          endpoint: subscriptionJSON.endpoint,
-          keys: {
-            p256dh: subscriptionJSON.keys.p256dh!,
-            auth: subscriptionJSON.keys.auth!,
-          }
+      if (permission === "granted") {
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
         });
+        const subscriptionJSON = subscription.toJSON();
+        if (subscriptionJSON.endpoint && subscriptionJSON.keys) {
+          await saveSubscription({
+            endpoint: subscriptionJSON.endpoint,
+            keys: {
+              p256dh: subscriptionJSON.keys.p256dh!,
+              auth: subscriptionJSON.keys.auth!,
+            }
+          });
+          setStatus("granted");
+        }
+      } else {
+        setStatus("denied");
       }
+    } catch (error) {
+      console.error("Subscription error:", error);
+      alert("申し訳ございません。通知の登録に失敗しました。");
+      setStatus("denied");
     }
-  };
+  }
+
+  if (status === "loading") {
+    return null;
+  }
+
+
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t z-50">
-      {!subscriptionJson ? (
+    <div>
+      {status === "granted" ? (
         <button 
-          onClick={startRegistration}
-          className="w-full py-3 bg-indigo-600 text-white rounded-lg font-bold"
+          disabled 
+          className="mt-3 px-4 py-2 bg-gray-100 text-gray-500 rounded-lg font-bold border cursor-not-allowed"
         >
-          通知を有効にする
+          通知設定済み
         </button>
+      ) : status === "denied" ? (
+        <div className="text-sm text-center">
+          <p>通知がブロックされているかもしれません。</p>
+          <p>リマインド通知を受け取りたい場合は、ブラウザの設定から許可してください。</p>
+        </div>
       ) : (
-        <textarea 
-          className="w-full h-24 text-[10px] font-mono p-2 border rounded"
-          readOnly
-          value={subscriptionJson}
-        />
+        <button 
+          onClick={handleSubscribe}
+          className="mt-3 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold transition-colors"
+        >
+          リマインド通知を受け取る 🔔
+        </button>
       )}
     </div>
   );
