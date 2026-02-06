@@ -3,24 +3,20 @@ import { createClient } from "npm:@supabase/supabase-js@^2.48.0";
 
 
 Deno.serve(async (req) => {
-  // Edge Functions に標準で用意されている環境変数を直接参照
   const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
   const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   
-  // ユーザーが手動でセットした VAPID キー
   const VAPID_PUBLIC_KEY = Deno.env.get("VAPID_PUBLIC_KEY")!;
   const VAPID_PRIVATE_KEY = Deno.env.get("VAPID_PRIVATE_KEY")!;
   const VAPID_SUBJECT = "mailto:shunsukehirata777@gmail.com"; 
 
   webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
 
-  // リクエストごとにクライアントを生成（確実な方法）
   const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-  console.log("🚀 Starting daily reminder job...");
 
   try {
-    // 1. 今日（JST）の日付文字列を取得 (YYYY-MM-DD)
+    // "YYYY-MM-DD" format in JST
     const now = new Date();
     const jstDateStr = new Intl.DateTimeFormat('ja-JP', {
       timeZone: 'Asia/Tokyo',
@@ -29,10 +25,7 @@ Deno.serve(async (req) => {
       day: '2-digit',
     }).format(now).replace(/\//g, '-'); 
 
-    console.log(`📅 Target JST Date: ${jstDateStr}`);
-
-    // 2. Reporting中のすべての「申請(Application)」を取得
-    // user_id だけでなく id (application_id) も取得するのがポイント
+    // Fetch all applications in "reporting" status
     const { data: reportingApps, error: appsError } = await supabaseAdmin
       .from("scholarship_applications")
       .select("id, user_id") 
@@ -45,36 +38,32 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ message: "No reporting apps" }), { status: 200 });
     }
 
-    // 3. すでに「今日」コミットされた「申請ID」を取得
-    // student_commitments テーブルの application_id を見る
+    // Fetch application IDs that have already been committed "today".
     const reportingAppIds = reportingApps.map(app => app.id);
     
     const { data: committedData, error: commitError } = await supabaseAdmin
       .from("student_commitments")
       .select("application_id")
-      .in("application_id", reportingAppIds) // 対象の申請のみ検索
+      .in("application_id", reportingAppIds) // Filter only target applications (Can be ignored?)
       .eq("committed_date_jst", jstDateStr);
 
     if (commitError) throw commitError;
 
-    // 「今日完了済みの申請ID」のセットを作成
+    // Create a set of "application IDs completed today"
     const committedAppIds = new Set(committedData?.map((c) => c.application_id));
 
-    // 4. 未報告の申請を持っているユーザーを特定
-    // reportingApps の中から、committedAppIds に含まれていないものを探す
+    // Identify users who have applications that are not yet reported
     const pendingApps = reportingApps.filter(app => !committedAppIds.has(app.id));
     
-    // その申請の持ち主（user_id）をリストアップ（Setで重複排除）
+    // Eliminate duplicate user_ids
     const remindUserIds = [...new Set(pendingApps.map(app => app.user_id))];
 
-    console.log(`📊 Stats: Total Apps(${reportingApps.length}) - Done Apps(${committedAppIds.size}) = Pending Apps(${pendingApps.length})`);
-    console.log(`👥 Users to remind: ${remindUserIds.length}`);
 
     if (remindUserIds.length === 0) {
       return new Response(JSON.stringify({ message: "All apps reported!" }), { status: 200 });
     }
 
-    // 5. 通知先を取得
+    // Fetch notification recipients
     const { data: subscriptions, error: subsError } = await supabaseAdmin
       .from("push_subscriptions")
       .select("*")
@@ -83,11 +72,10 @@ Deno.serve(async (req) => {
     if (subsError) throw subsError;
 
     if (!subscriptions || subscriptions.length === 0) {
-      console.log("⚠️ No subscriptions found for target users.");
       return new Response(JSON.stringify({ message: "No subscriptions" }), { status: 200 });
     }
 
-    // 6. 送信処理
+    // Sending process
     const pushResults = await Promise.allSettled(
       subscriptions.map(async (sub) => {
         const pushConfig = {
@@ -95,7 +83,7 @@ Deno.serve(async (req) => {
           keys: { p256dh: sub.p256dh, auth: sub.auth },
         };
 
-        // 該当ユーザーがいくつ未報告か数えることも可能
+        // It is also possible to count how many reports are pending for the user
         const userPendingCount = pendingApps.filter(a => a.user_id === sub.user_id).length;
         const message = userPendingCount > 1 
           ? `本日 ${userPendingCount} 件の報告がまだ完了していません。`
@@ -110,9 +98,8 @@ Deno.serve(async (req) => {
           await webpush.sendNotification(pushConfig, payload);
           return sub.user_id;
         } catch (error: any) {
-          // 410/404 は「もうこの宛先は無効」という確定エラーなので削除してOK
+          // 410/404: Subscription is no longer valid, delete it from DB
           if (error.statusCode === 410 || error.statusCode === 404) {
-            console.log(`🗑 Removing invalid subscription for user: ${sub.user_id}`);
             await supabaseAdmin.from("push_subscriptions").delete().eq("user_id", sub.user_id);
           }
           throw error;
@@ -121,7 +108,6 @@ Deno.serve(async (req) => {
     );
 
     const successCount = pushResults.filter((r) => r.status === "fulfilled").length;
-    console.log(`🎉 Notification sent to ${successCount} devices.`);
 
     return new Response(
       JSON.stringify({ success: true, sent_count: successCount }),
