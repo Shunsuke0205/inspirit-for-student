@@ -34,6 +34,7 @@ export default function NotificationWatcher() {
           const allNotifications = await registration.getNotifications();
           // アラートで確認（本番では消す）
           alert(`全通知数: ${allNotifications.length}`);
+          alert(`全通知内容: ${allNotifications.map(n => n.tag).join(", ")}`);
 
           // ② 指定タグで取ってみる
           const notifications = await registration.getNotifications({ tag: "commit-reminder" });
