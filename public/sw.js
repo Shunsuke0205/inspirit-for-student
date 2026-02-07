@@ -25,6 +25,7 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   const urlToOpen = event.notification.data?.url || "/effort";
+  const PROTECTED_PATH = "/bright-first-step/application";
 
   const clearBadgePromise = navigator.clearAppBadge
     ? navigator.clearAppBadge().catch(e => console.error(e))
@@ -36,7 +37,11 @@ self.addEventListener("notificationclick", (event) => {
   }).then((clientList) => {
     for (const client of clientList) {
       if (client.url.includes(self.location.origin) && "focus" in client) {
-        return client.focus().then(c => c.navigate(urlToOpen));
+        if (client.url.includes(PROTECTED_PATH)) {
+          return client.focus();
+        } else {
+          return client.focus().then(c => c.navigate(urlToOpen));
+        }
       }
     }
     if (clients.openWindow) {
