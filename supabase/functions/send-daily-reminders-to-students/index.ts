@@ -92,6 +92,9 @@ Deno.serve(async (req) => {
         const payload = JSON.stringify({
           count: 1, 
           message: message,
+          data: {
+            url: "/effort"
+          }
         });
 
         try {
