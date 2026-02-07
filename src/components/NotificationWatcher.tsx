@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 // Guarded path
 const PROTECTED_PATH = "/bright-first-step/application";
+const TARGET_TAG = "commit-reminder";
 
 export default function NotificationWatcher() {
   const router = useRouter();
@@ -29,21 +30,11 @@ export default function NotificationWatcher() {
         }
 
         const registration = await navigator.serviceWorker.ready;
-        {
-          // ① まずタグ指定なしで全部取ってみる
-          const allNotifications = await registration.getNotifications();
-          // アラートで確認（本番では消す）
-          alert(`全通知数: ${allNotifications.length}`);
-          // 全ての通知を alert で表示する
-          alert(`全通知内容: ${allNotifications.map(n => JSON.stringify(n)).join("\n")}`);
+        const allNotifications = await registration.getNotifications();
+        const targetNotification = allNotifications.find(n => n.tag === TARGET_TAG);
 
-          // ② 指定タグで取ってみる
-          const notifications = await registration.getNotifications({ tag: "commit-reminder" });
-          alert(`ターゲット通知数: ${notifications.length}`);
-        }
-        const notifications = await registration.getNotifications({ tag: "commit-reminder" });
-        if (notifications.length > 0) {
-          for (const notification of notifications) {
+        if (targetNotification) {
+          for (const notification of allNotifications) {
             notification.close();
           }
 
