@@ -26,11 +26,17 @@ export default function PushSettingsButton() {
       setStatus("denied");
       return;
     }
-    if (Notification.permission === "granted") {
-      setStatus("granted");
-    } else if (Notification.permission === "denied") {
-      setStatus("denied");
-    } else {
+
+    try {
+      if (Notification.permission === "granted") {
+        setStatus("granted");
+      } else if (Notification.permission === "denied") {
+        setStatus("denied");
+      } else {
+        setStatus("default");
+      }
+    } catch (e) {
+      console.error("Error reading notification permission:", e);
       setStatus("default");
     }
   }, []);
