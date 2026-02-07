@@ -22,14 +22,29 @@ self.addEventListener("push", (event) => {
   );
 });
 
-self.addEventListener("notificationclick", function(event) {
+self.addEventListener("notificationclick", (event) => {
   event.notification.close();
+  const urlToOpen = event.notification.data?.url || "/effort";
 
-  if (navigator.clearAppBadge) {
-    navigator.clearAppBadge();
-  }
+  const clearBadgePromise = navigator.clearAppBadge
+    ? navigator.clearAppBadge().catch(e => console.error(e))
+    : Promise.resolve();
+
+  const windowClientPromise = clients.matchAll({
+    type: "window",
+    includeUncontrolled: true
+  }).then((clientList) => {
+    for (const client of clientList) {
+      if (client.url.includes(self.location.origin) && "focus" in client) {
+        return client.focus().then(c => c.navigate(urlToOpen));
+      }
+    }
+    if (clients.openWindow) {
+      return clients.openWindow(urlToOpen);
+    }
+  });
 
   event.waitUntil(
-    clients.openWindow("/effort")
+    Promise.all([clearBadgePromise, windowClientPromise])
   );
 });
