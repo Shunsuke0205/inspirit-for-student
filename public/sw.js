@@ -1,24 +1,27 @@
-self.addEventListener('push', function(event) {
-  // const data = event.data ? event.data.json() : { count: 1 };
-  // const count = data.count || 1;
+self.addEventListener("push", (event) => {
+  const data = event.data ? event.data.json() : { count: 1 };
 
-  if (navigator.setAppBadge) {
-    navigator.setAppBadge(1).catch((error) => {
-      console.error('Badge update failed:', error);
-    });
-  }
+  const badgePromise = navigator.setAppBadge
+    ? navigator.setAppBadge(1).catch(error => console.error("Badge update failed:", error))
+    : Promise.resolve();
 
-  const title = 'Inspirit Notification';
+  const title = "Inspirit Notification";
   const options = {
-    body: "You are supposed to push the commitment buttons.",
-    icon: '/apple-touch-icon.png',
-    badge: '/apple-touch-icon.png'
+    body: data.message || "リマインド通知",
+    icon: "/apple-touch-icon.png",
+    badge: "/apple-touch-icon.png",
+    data: data.data || { url: "/effort" }
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  event.waitUntil(
+    Promise.all([
+      self.registration.showNotification(title, options),
+      badgePromise
+    ])
+  );
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener("notificationclick", function(event) {
   event.notification.close();
 
   if (navigator.clearAppBadge) {
@@ -26,6 +29,6 @@ self.addEventListener('notificationclick', function(event) {
   }
 
   event.waitUntil(
-    clients.openWindow('/')
+    clients.openWindow("/effort")
   );
 });
