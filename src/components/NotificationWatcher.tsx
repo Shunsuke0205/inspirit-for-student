@@ -24,6 +24,10 @@ export default function NotificationWatcher() {
       try {
         if (!("serviceWorker" in navigator)) return;
 
+        if ("clearAppBadge" in navigator) {
+          navigator.clearAppBadge().catch((e) => console.error("Badge clear failed", e));
+        }
+
         const registration = await navigator.serviceWorker.ready;
         {
           // ① まずタグ指定なしで全部取ってみる
@@ -39,10 +43,6 @@ export default function NotificationWatcher() {
         if (notifications.length > 0) {
           for (const notification of notifications) {
             notification.close();
-          }
-
-          if ("clearAppBadge" in navigator) {
-             await navigator.clearAppBadge().catch(() => {});
           }
 
           router.push("/effort");
