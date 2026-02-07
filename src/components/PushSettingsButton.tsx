@@ -20,30 +20,51 @@ function urlBase64ToUint8Array(base64String: string) {
 
 export default function PushSettingsButton() {
   const [status, setStatus] = useState<"loading" | "default" | "granted" | "denied">("loading");
+  const [debugInfo, setDebugInfo] = useState<string>("");
 
   useEffect(() => {
-    if (!("serviceWorker" in navigator)) {
+    const logs: string[] = [];
+    
+    const hasSW = "serviceWorker" in navigator;
+    logs.push(`SW Support: ${hasSW}`);
+
+    if (!hasSW) {
       setStatus("denied");
+      setDebugInfo(logs.join("\n"));
       return;
     }
 
-    if (!("Notification" in window)) {
-      console.warn("この端末は通知に対応していません");
+    const hasNotif = "Notification" in window;
+    logs.push(`Notification Object: ${hasNotif}`);
+
+    if (!hasNotif) {
+      logs.push("Error: Device does not support Notification API");
       setStatus("denied");
-      return; 
+      setDebugInfo(logs.join("\n"));
+      return;
     }
+
     try {
-      if (Notification.permission === "granted") {
+      const perm = Notification.permission;
+      logs.push(`Permission Status: ${perm}`);
+      
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
+      logs.push(`Standalone Mode: ${isStandalone}`);
+
+      if (perm === "granted") {
         setStatus("granted");
-      } else if (Notification.permission === "denied") {
+      } else if (perm === "denied") {
         setStatus("denied");
       } else {
         setStatus("default");
       }
     } catch (e) {
+      logs.push(`Error reading permission: ${e}`);
       console.error("Error reading notification permission:", e);
       setStatus("default");
     }
+    
+    setDebugInfo(logs.join("\n"));
   }, []);
 
   const handleSubscribe = async () => {
@@ -87,6 +108,10 @@ export default function PushSettingsButton() {
 
   return (
     <div>
+      <div className="p-4 bg-black text-green-400 text-xs font-mono rounded overflow-scroll whitespace-pre-wrap border-2 border-green-600">
+        <p className="font-bold border-b border-green-600 mb-2">DEBUG INFO</p>
+        {debugInfo}
+      </div>
       {status === "granted" ? (
         <button 
           disabled 
