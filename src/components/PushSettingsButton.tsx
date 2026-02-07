@@ -27,6 +27,11 @@ export default function PushSettingsButton() {
       return;
     }
 
+    if (!("Notification" in window)) {
+      console.warn("この端末は通知に対応していません");
+      setStatus("denied");
+      return; 
+    }
     try {
       if (Notification.permission === "granted") {
         setStatus("granted");
