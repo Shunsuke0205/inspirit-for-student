@@ -25,6 +25,16 @@ export default function NotificationWatcher() {
         if (!("serviceWorker" in navigator)) return;
 
         const registration = await navigator.serviceWorker.ready;
+        {
+          // ① まずタグ指定なしで全部取ってみる
+          const allNotifications = await registration.getNotifications();
+          // アラートで確認（本番では消す）
+          alert(`全通知数: ${allNotifications.length}`);
+
+          // ② 指定タグで取ってみる
+          const notifications = await registration.getNotifications({ tag: "commit-reminder" });
+          alert(`ターゲット通知数: ${notifications.length}`);
+        }
         const notifications = await registration.getNotifications({ tag: "commit-reminder" });
         if (notifications.length > 0) {
           for (const notification of notifications) {
