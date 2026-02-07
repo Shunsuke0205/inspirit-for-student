@@ -20,33 +20,33 @@ function urlBase64ToUint8Array(base64String: string) {
 
 export default function PushSettingsButton() {
   const [status, setStatus] = useState<"loading" | "default" | "granted" | "denied">("loading");
-  const [debugInfo, setDebugInfo] = useState<string>("");
+  // const [debugInfo, setDebugInfo] = useState<string>("");
 
   useEffect(() => {
     const logs: string[] = [];
     
     const hasSW = "serviceWorker" in navigator;
-    logs.push(`SW Support: ${hasSW}`);
+    // logs.push(`SW Support: ${hasSW}`);
 
     if (!hasSW) {
       setStatus("denied");
-      setDebugInfo(logs.join("\n"));
+      // setDebugInfo(logs.join("\n"));
       return;
     }
 
     const hasNotif = "Notification" in window;
-    logs.push(`Notification Object: ${hasNotif}`);
+    // logs.push(`Notification Object: ${hasNotif}`);
 
     if (!hasNotif) {
-      logs.push("Error: Device does not support Notification API");
+      // logs.push("Error: Device does not support Notification API");
       setStatus("denied");
-      setDebugInfo(logs.join("\n"));
+      // setDebugInfo(logs.join("\n"));
       return;
     }
 
     try {
       const perm = Notification.permission;
-      logs.push(`Permission Status: ${perm}`);
+      // logs.push(`Permission Status: ${perm}`);
       
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
       logs.push(`Standalone Mode: ${isStandalone}`);
@@ -64,7 +64,7 @@ export default function PushSettingsButton() {
       setStatus("default");
     }
     
-    setDebugInfo(logs.join("\n"));
+    // setDebugInfo(logs.join("\n"));
   }, []);
 
   const handleSubscribe = async () => {
@@ -108,10 +108,10 @@ export default function PushSettingsButton() {
 
   return (
     <div>
-      <div className="p-4 bg-black text-green-400 text-xs font-mono rounded overflow-scroll whitespace-pre-wrap border-2 border-green-600">
+      {/* <div className="p-4 bg-black text-green-400 text-xs font-mono rounded overflow-scroll whitespace-pre-wrap border-2 border-green-600">
         <p className="font-bold border-b border-green-600 mb-2">DEBUG INFO</p>
         {debugInfo}
-      </div>
+      </div> */}
       {status === "granted" ? (
         <button 
           disabled 
