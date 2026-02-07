@@ -10,7 +10,8 @@ self.addEventListener("push", (event) => {
     body: data.message || "リマインド通知",
     icon: "/apple-touch-icon.png",
     badge: "/apple-touch-icon.png",
-    data: data.data || { url: "/effort" }
+    data: data.data || { url: "/effort" },
+    tag: "commit-reminder"
   };
 
   event.waitUntil(
