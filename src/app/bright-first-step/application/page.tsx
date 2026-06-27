@@ -184,7 +184,11 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
     }
   };
 
+  const today = new Date().toLocaleDateString('ja-JP');
+  const price = Number(formData.item_price) || 0;
+
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-2xl mx-auto bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">欲しい物品を投稿する</h2>
 
@@ -374,6 +378,140 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
         {isSubmitting ? "投稿中..." : "募集を投稿する"}
       </button>
     </form>
+
+    {/* ===== Preview Section ===== */}
+    <div className="max-w-2xl mx-auto mt-10 space-y-8 px-4 pb-16">
+      <div className="flex items-center gap-3">
+        <div className="flex-1 h-px bg-gray-200" />
+        <h3 className="text-base font-bold text-gray-500 whitespace-nowrap">投稿プレビュー（支援者の見え方です！）</h3>
+        <div className="flex-1 h-px bg-gray-200" />
+      </div>
+
+      {/* ── Small card (discover list) ── */}
+      <div>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">一覧ページでの表示</p>
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 max-w-sm">
+          <div className="p-5">
+            <div className="flex justify-between items-start gap-4 mb-4">
+              <h3 className="text-xl font-bold text-gray-800 leading-tight line-clamp-2">
+                {formData.title || <span className="text-gray-300">タイトルなし</span>}
+              </h3>
+              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-lg border border-blue-100 shrink-0 shadow-sm">
+                <svg className="w-3.5 h-3.5 fill-blue-600 text-white" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-[10px] font-black tracking-tighter whitespace-nowrap">本人確認済</span>
+              </div>
+            </div>
+            <p className="text-gray-600 mb-3 line-clamp-3 text-sm">
+              {formData.item_description || <span className="text-gray-300">説明なし</span>}
+            </p>
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-sm text-indigo-600">
+                価格 {price.toLocaleString()} 円
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                応援受付中
+              </span>
+            </div>
+            <div className="text-right text-gray-500 text-xs">
+              投稿日: {today}
+            </div>
+          </div>
+          <div className="bg-gray-50 p-4 border-t border-gray-200">
+            <p className="text-indigo-600 font-medium text-sm text-center">詳細を見る・支援する</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Full detail (discover/[id]) ── */}
+      <div>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">詳細ページでの表示</p>
+        <div className="bg-gray-100 rounded-lg py-8 px-4">
+          <div className="bg-white rounded-lg shadow-xl p-6 space-y-6">
+            {/* Date */}
+            <div className="text-right text-gray-500 text-sm">
+              <p>投稿日：{today}</p>
+            </div>
+
+            {/* Title + verified */}
+            <div className="flex justify-between items-start">
+              <h1 className="text-2xl font-extrabold text-gray-900 leading-tight">
+                {formData.title || <span className="text-gray-300">タイトルなし</span>}
+              </h1>
+              <span className="ml-4 inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 shrink-0">
+                <svg className="-ml-1 mr-1.5 h-3 w-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                本人確認済
+              </span>
+            </div>
+
+            {/* Status badge */}
+            <div>
+              <span className="px-4 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                応援受付中
+              </span>
+            </div>
+
+            <div className="space-y-5 text-gray-700 leading-relaxed">
+              {/* Item */}
+              <div>
+                <h2 className="text-lg font-bold text-gray-800 mb-2">🎓 欲しい物品</h2>
+                <p className="whitespace-pre-wrap">商品名：「{formData.item_name || <span className="text-gray-300">名前なし</span>}」</p>
+                <p className="whitespace-pre-wrap mt-1">{formData.item_description || <span className="text-gray-300">説明なし</span>}</p>
+              </div>
+
+              {/* Price */}
+              <div className="bg-gray-50 p-4 rounded-md">
+                <p className="text-sm text-gray-600">物品の金額</p>
+                <p className="text-2xl font-bold text-indigo-700">{price.toLocaleString()} 円</p>
+              </div>
+
+              {/* Enthusiasm */}
+              <div>
+                <h2 className="text-lg font-bold text-gray-800 mb-2">🔥 活動への意気込み</h2>
+                <p className="whitespace-pre-wrap">{formData.enthusiasm || <span className="text-gray-400">記載なし</span>}</p>
+              </div>
+
+              {/* Long-term goal */}
+              <div>
+                <h2 className="text-lg font-bold text-gray-800 mb-2">🚀 長期的な夢や目標</h2>
+                <p className="whitespace-pre-wrap">{formData.long_term_goal || <span className="text-gray-400">記載なし</span>}</p>
+              </div>
+
+              {/* Report period */}
+              <div className="bg-gray-50 p-4 rounded-md">
+                <p className="text-sm text-gray-600">報告期間</p>
+                <p className="text-lg font-bold text-gray-800">{formData.entire_report_period_days} 日間</p>
+              </div>
+
+              {/* Amazon URL */}
+              {formData.amazon_wishlist_url && (
+                <div>
+                  <h2 className="text-lg font-bold text-gray-800 mb-2">🎁 Amazon 欲しい物リスト</h2>
+                  <p className="text-sm text-gray-500">（⚠️ 外部サイトとなる「Amazon 公式の欲しいものリストのページ」へ移動します）</p>
+                  <span className="text-indigo-600 flex items-center mt-1 text-sm break-all">
+                    {formData.amazon_wishlist_url}
+                    <svg className="ml-1 h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Purchase button placeholder */}
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <button disabled className="w-full py-3 px-4 bg-indigo-300 text-white font-bold rounded-md text-sm cursor-not-allowed">
+                購入状態ボタン（プレビュー）
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
   );
 };
 
