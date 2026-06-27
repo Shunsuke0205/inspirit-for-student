@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 
 
@@ -59,7 +59,7 @@ const useAuthorization = () => {
 
 // Application form component
 const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
-  // const router = useRouter();
+  const router = useRouter();
 
   // State to manage form input values
   const [formData, setFormData] = useState({
@@ -188,7 +188,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
       }
 
       setSubmitSuccess("申請が正常に投稿されました！");
-      redirect("/bright-first-step");
+      router.push("/bright-first-step");
     } catch (err) {
       console.error("Application submission error:", err);
       setSubmitError("申し訳ございません、投稿に失敗しました。しばらく時間をおいて再度お試しください。");
