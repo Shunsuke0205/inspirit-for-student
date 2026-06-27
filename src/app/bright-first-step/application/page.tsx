@@ -194,7 +194,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
 
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-          タイトル <span className="text-red-500">*</span>
+          投稿タイトル <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
