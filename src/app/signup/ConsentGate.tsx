@@ -23,8 +23,9 @@ const ExternalLinkIcon = () => (
 export default function ConsentGate() {
   const [isTermsOpened, setIsTermsOpened] = useState(false);
   const [isPrivacyOpened, setIsPrivacyOpened] = useState(false);
+  const [isAgreeChecked, setIsAgreeChecked] = useState(false);
 
-  const bothOpened = isTermsOpened && isPrivacyOpened;
+  const isAllChecked = isTermsOpened && isPrivacyOpened && isAgreeChecked;
 
   return (
     <>
@@ -58,6 +59,18 @@ export default function ConsentGate() {
           </span>
           <CheckIcon checked={isPrivacyOpened} />
         </a>
+        <label className="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer">
+          <span className="flex items-center gap-2">
+            保護者の同意を得ています。
+          </span>
+          <input
+            type="checkbox"
+            className="sr-only"
+            checked={isAgreeChecked}
+            onChange={e => setIsAgreeChecked(e.target.checked)}
+          />
+          <CheckIcon checked={isAgreeChecked} />
+        </label>
       </div>
 
       <p className="text-xs text-gray-500">
@@ -65,7 +78,7 @@ export default function ConsentGate() {
       </p>
 
 
-      <SignupButton canSubmit={bothOpened} />
+      <SignupButton canSubmit={isAllChecked} />
     </>
   );
 }
