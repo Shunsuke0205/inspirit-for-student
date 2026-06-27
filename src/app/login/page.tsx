@@ -3,7 +3,7 @@ import { LoginComponent } from './LoginComponent';
 
 export default function LoginPage() {
   return (
-    <div className="h-screen pt-4 flex items-start justify-center bg-gray-100">
+    <div className="pb-40 pt-4 flex items-start justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 space-y-6">
         <h1 className="text-3xl font-bold text-center text-gray-800">ログイン</h1>
         

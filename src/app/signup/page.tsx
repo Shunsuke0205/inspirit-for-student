@@ -4,7 +4,7 @@ import { SignupComponent } from './SignupComponent';
 
 export default function SignupPage() {
   return (
-    <div className="h-screen flex items-start justify-center bg-gray-100 p-4">
+    <div className="pb-40 flex items-start justify-center bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 space-y-6">
         <h1 className="text-3xl font-bold text-center text-gray-800">新規登録</h1>
 
