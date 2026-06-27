@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./Header";
+import Footer from "./Footer";
 import NotificationWatcher from "@/components/NotificationWatcher";
 
 
@@ -39,6 +40,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
