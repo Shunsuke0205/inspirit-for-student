@@ -380,7 +380,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
     </form>
 
     {/* ===== Preview Section ===== */}
-    <div className="max-w-2xl mx-auto mt-10 space-y-8 px-4 pb-16">
+    <div className="max-w-2xl mx-auto mt-10 space-y-8 px-0 pb-16">
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-gray-200" />
         <h3 className="text-base font-bold text-gray-500 whitespace-nowrap">投稿プレビュー（支援者の見え方です！）</h3>
