@@ -135,18 +135,29 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
 
     try {
       if (!userId) {
+        setSubmitError("ログイン情報が取得できませんでした。再度ログインしてください。");
         throw new Error("User ID could not be retrieved. Please log in again.");
       }
 
-      const url = new URL(formData.amazon_wishlist_url);
+      let url: URL;
+      try {
+        url = new URL(formData.amazon_wishlist_url);
+      } catch {
+        setSubmitError("申し訳ありません。URLの形式が正しくないようです。もう一度作成し直してください。");
+        return;
+      }
+
       if (url.protocol !== "https:") {
-        throw new Error("URL must start with https://");
+        setSubmitError("申し訳ありません。URLの形式が正しくないようです。もう一度作成し直してください。");
+        return;
       }
       if (!ALLOWED_AMAZON_DOMAINS.includes(url.hostname)) {
-        throw new Error("Sorry, the Amazon URL appears to be incorrect.");
+        setSubmitError("申し訳ありません。URLの形式が正しくないようです。もう一度作成し直してください。");
+        return;
       }
       if (!url.pathname.includes("wishlist")) {
-        throw new Error("The URL does not appear to be an Amazon wishlist. Please check the URL.");
+        setSubmitError("そのURLは欲しい物リストのURLではないようです。恐れ入りますが、もう一度作成し直してください。");
+        return;
       }
 
       const supabase = createClient();
@@ -158,7 +169,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
           item_name: formData.item_name,
           item_description: formData.item_description,
           item_price: formData.item_price,
-          requested_amount: formData.item_price, // set requested_amount to item_price
+          requested_amount: formData.item_price,
           enthusiasm: formData.enthusiasm,
           long_term_goal: formData.long_term_goal,
           amazon_wishlist_url: formData.amazon_wishlist_url,
@@ -168,17 +179,19 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
           // created_at, status, is_deleted, last_reported_at are set to default values in the DB or automatically by Supabase
           // last_reported_at is null initially
         })
-        .select(); // Return the inserted data
+        .select();
 
       if (error) {
-        throw new Error(`Failed to submit application: ${error.message}`);
+        console.error("Supabase insert error:", error.message);
+        setSubmitError("申し訳ございません、投稿に失敗しました。しばらく時間をおいて再度お試しください。");
+        return;
       }
 
       setSubmitSuccess("申請が正常に投稿されました！");
       redirect("/bright-first-step");
     } catch (err) {
       console.error("Application submission error:", err);
-      setSubmitError("不明なエラーが発生しました。");
+      setSubmitError("申し訳ございません、投稿に失敗しました。しばらく時間をおいて再度お試しください。");
     } finally {
       setIsSubmitting(false);
     }
