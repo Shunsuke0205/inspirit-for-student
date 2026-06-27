@@ -73,6 +73,7 @@ async function MyApplications() {
       reportIntervalDays:report_interval_days
     `)
     .eq("user_id", userId)
+    .eq("is_deleted", false)
     .order("created_at", { ascending: false });
 
   if (applicationsError) {
