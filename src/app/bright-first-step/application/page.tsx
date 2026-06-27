@@ -307,8 +307,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="entire_report_period_days" className="block text-sm font-medium text-gray-700">
-            物を受け取ってから活動報告を行う期間 <span className="text-red-500">*</span><br />
-            （日数）
+            活動報告を行う日数 <span className="text-red-500">*</span><br />
           </label>
           <input
             type="number"
@@ -321,7 +320,8 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
           />
           <p className="text-xs text-gray-500 mt-1">
-            この期間中、毎日1回以上の活動報告を行う義務が発生します。
+            日数はご自身で自由に設定できます。<br />
+            商品が届いたら、この日数だけ毎日アプリ上のボタンを押してください。
           </p>
         </div>
         {/* <div>
@@ -490,7 +490,7 @@ const ApplicationForm: React.FC<{ userId: string | null }> = ({ userId }) => {
               {formData.amazon_wishlist_url && (
                 <div>
                   <h2 className="text-lg font-bold text-gray-800 mb-2">🎁 Amazon 欲しい物リスト</h2>
-                  <p className="text-sm text-gray-500">（⚠️ 外部サイトとなる「Amazon 公式の欲しいものリストのページ」へ移動します）</p>
+                  <p className="text-sm text-gray-500">⚠️ 外部サイトである「Amazon 公式の欲しいものリストのページ」へ移動します。</p>
                   <span className="text-indigo-600 flex items-center mt-1 text-sm break-all">
                     {formData.amazon_wishlist_url}
                     <svg className="ml-1 h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
