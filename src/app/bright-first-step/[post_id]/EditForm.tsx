@@ -3,6 +3,7 @@
 import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateApplication, deleteApplication, type ApplicationFormData } from "./actions";
+import { confirmReception } from "../receiveActions";
 
 type Props = {
   applicationId: string;
@@ -17,6 +18,9 @@ const EditForm: React.FC<Props> = ({ applicationId, initialData, status }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [confirmError, setConfirmError] = useState<string | null>(null);
+  const [confirmSuccess, setConfirmSuccess] = useState<string | null>(null);
 
   const isEditable = status === "active";
 
@@ -66,6 +70,22 @@ const EditForm: React.FC<Props> = ({ applicationId, initialData, status }) => {
     }
   };
 
+  const handleConfirmReception = async () => {
+    if (!window.confirm("商品はお手元にありますか？\nあればOKを押してください！")) return;
+    setIsConfirming(true);
+    setConfirmError(null);
+    setConfirmSuccess(null);
+
+    const result = await confirmReception(applicationId);
+    if (result.success) {
+      setConfirmSuccess(result.message);
+      router.refresh();
+    } else {
+      setConfirmError(result.message);
+    }
+    setIsConfirming(false);
+  };
+
   const today = new Date().toLocaleDateString("ja-JP");
   const price = Number(formData.item_price) || 0;
 
@@ -73,6 +93,31 @@ const EditForm: React.FC<Props> = ({ applicationId, initialData, status }) => {
     <>
       <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-2xl mx-auto bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">申請の詳細・編集</h2>
+
+        {status === "pending" && (
+          <div className="p-4 bg-green-50 border border-green-200 rounded-md space-y-3">
+            <p className="text-sm font-medium text-green-800">
+              支援者が商品を購入しました。商品が届いたら下のボタンを押して受け取りを報告してください。
+            </p>
+            <p className="text-xs text-green-700">
+              ⚠️ 受取報告をすると、その日から{formData.entire_report_period_days}日間の活動報告が始まります。{formData.entire_report_period_days}日間毎日、アプリ上でコミットメントボタンを押してください。
+            </p>
+            {confirmError && <p className="text-red-600 text-sm">{confirmError}</p>}
+            {confirmSuccess && <p className="text-green-700 text-sm font-medium">{confirmSuccess}</p>}
+            <button
+              type="button"
+              onClick={handleConfirmReception}
+              disabled={isConfirming || !!confirmSuccess}
+              className={`w-full py-3 px-6 rounded-lg text-white font-semibold text-base shadow transition-colors ${
+                isConfirming || confirmSuccess
+                  ? "bg-green-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700 cursor-pointer"
+              }`}
+            >
+              {isConfirming ? "確認中..." : "商品を受け取りました！"}
+            </button>
+          </div>
+        )}
 
         {!isEditable && (
           <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md text-sm text-yellow-800">
