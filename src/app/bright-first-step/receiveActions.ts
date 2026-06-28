@@ -53,10 +53,10 @@ export async function confirmReception(applicationId: string) : Promise<ReceiveR
     }
 
     const { error: dummyUpdateError } = await supabase
-      .from("sholarship_applications")
+      .from("scholarship_applications")
       .update({ status: "reporting" })
       .eq("user_id", studentUserId)
-      .eq("is_dairy_report_app", true)
+      .eq("is_dairy_report", true)
     
     if (dummyUpdateError) {
       console.error("Error updating dummy scholarship_applications:", dummyUpdateError);
