@@ -361,7 +361,7 @@ const EditForm: React.FC<Props> = ({ applicationId, initialData, status }) => {
                   ⚠️ Amazon で購入手続きを完了してから、この確定ボタンを押してください。
                 </p>
                 <div
-                  className="w-full py-3 px-6 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out text-lg bg-green-600 hover:bg-green-700"
+                  className="w-full py-3 px-6 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out text-lg bg-green-600"
                 >
                   Amazon 公式サイトで決済を完了しました
                 </div>
