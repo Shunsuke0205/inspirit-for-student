@@ -65,7 +65,7 @@ export async function confirmReception(applicationId: string) : Promise<ReceiveR
 
     revalidatePath(`/bright-first-step/${applicationId}`);
     revalidatePath("/bright-first-step");
-    return { success: true, error: null, message: "商品を受け取りました。活動報告が今日から義務付けられます。" };
+    return { success: true, error: null, message: "商品を受け取りました。今日から活動報告が始まります！" };
   } catch (error: unknown) {
     console.error("Server action error:", error);
     if (error instanceof Error) {
