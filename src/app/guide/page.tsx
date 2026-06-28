@@ -39,8 +39,20 @@ export default function GuidePage() {
             <li>投稿できるのは、本人確認が済んだ高校生のアカウントのみです。</li>
             <li>このアプリでは、「Amazonの欲しいものリスト機能」を通じて応援者があなたの欲しい物を代理購入します。</li>
             <ul className="list-[circle] list-outside pl-8">
-              <li className="font-bold">「Amazon　欲しいものリスト　匿名　作り方」などとネット検索をして、AmazonのURLを作ってください。</li>
-              <li>このとき、自分の本名が公開されないよう十分注意してください！</li>
+              <li className="font-bold">
+                <Link
+                  href="/guide/amazon-wishlist"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline font-normal"
+                >
+                  Amazon 欲しいものリストの作り方はこちら
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </Link>
+              </li>
+              <li>ご自身の本名・住所が公開されないよう注意してください！</li>
               <li>
                 <div className="font-bold">住所の一番最後に「（あなたの本名）方」と記載してください。</div>
                 「（あなたの本名）さんのところに届くようにお願いします」という意味です。購入者に本名を知られないよう名前のところをハンドルネームにするため、この記載がないと配送業者さんが商品を届けられません。</li>
