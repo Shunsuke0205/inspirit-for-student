@@ -2,34 +2,99 @@ export default function PrivacyPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold text-gray-900 mb-2">プライバシーポリシー</h1>
-      <p className="text-sm text-gray-500 mb-10">最終更新日：2025年XX月XX日</p>
 
       <div className="space-y-8 text-gray-700 leading-relaxed">
+        <p>平田駿輔（以下「当社」といいます。）は、当社の提供するサービス（以下「本サービス」といいます。）における、ユーザーについての個人情報を含む利用者情報の取扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます。）を定めます。</p>
+
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">1. 収集する情報</h2>
-          <p>本サービスでは、以下の情報を収集する場合があります。</p>
-          <p className="mt-2 text-gray-400 italic">※ ここに正式な文章が入ります。</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">1. 収集する利用者情報及び収集方法</h2>
+          <p className="mb-3">本ポリシーにおいて、「利用者情報」とは、ユーザーの識別に係る情報、通信サービス上の行動履歴、その他ユーザーまたはユーザーの端末に関連して生成または蓄積された情報であって、本ポリシーに基づき当社が収集するものを意味するものとします。本サービスにおいて当社が収集する利用者情報は、その収集方法に応じて、以下のようなものとなります。</p>
+          <div className="space-y-4">
+            <div>
+              <p className="font-medium mb-2">（1）ユーザーからご提供いただく情報</p>
+              <p className="mb-2">本サービスを利用するために、または本サービスの利用を通じてユーザーからご提供いただく情報は以下のとおりです。</p>
+              <ul className="list-none ml-4 space-y-1">
+                <li>・氏名、生年月日等プロフィールに関する情報</li>
+                <li>・学校名、学年等在学に関する情報</li>
+                <li>・メールアドレス等連絡先に関する情報</li>
+                <li>・入力フォームその他当社が定める方法を通じてユーザーが入力または送信する情報</li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-medium mb-2">（2）ユーザーが本サービスを利用するにあたって、当社が収集する情報</p>
+              <p className="mb-2">当社は、本サービスへのアクセス状況やそのご利用方法に関する情報を収集することがあります。これには以下の情報が含まれます。</p>
+              <ul className="list-none ml-4 space-y-1">
+                <li>・リファラ</li>
+                <li>・IPアドレス</li>
+                <li>・サーバーアクセスログに関する情報</li>
+                <li>・Cookieその他の識別子</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">2. 情報の利用目的</h2>
-          <p className="text-gray-400 italic">※ ここに正式な文章が入ります。</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">2. 利用目的</h2>
+          <p className="mb-2">本サービスのサービス提供にかかわる利用者情報の具体的な利用目的は以下のとおりです。</p>
+          <ol className="list-none space-y-2">
+            <li>（1）本サービスに関する登録の受付、本人確認、ユーザー認証、ユーザー設定の記録、利用規約に基づく利用資格の確認等本サービスの提供、維持、保護及び改善のため</li>
+            <li>（2）ユーザーのトラフィック測定及び行動測定のため</li>
+            <li>（3）本サービスに関するご案内、お問い合わせ等への対応のため</li>
+            <li>（4）本サービスに関する当社の規約、ポリシー等（以下「規約等」といいます。）に違反する行為に対する対応のため</li>
+            <li>（5）本サービスに関する規約等の変更などを通知するため</li>
+          </ol>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">3. 第三者への提供</h2>
-          <p className="text-gray-400 italic">※ ここに正式な文章が入ります。</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">3. 第三者提供</h2>
+          <div className="space-y-3">
+            <div>
+              <p className="mb-2">3-1 当社は、利用者情報のうち、個人情報については、あらかじめユーザーの同意を得ないで、第三者に提供しません。但し、次に掲げる必要があり第三者に提供する場合はこの限りではありません。</p>
+              <ol className="list-none ml-4 space-y-1">
+                <li>（1）当社が利用目的の達成に必要な範囲内において個人情報の取扱いの全部または一部を委託する場合</li>
+                <li>（2）合併その他の事由による事業の承継に伴って個人情報が提供される場合</li>
+                <li>（3）その他、個人情報の保護に関する法律（以下「個人情報保護法」といいます。）その他の法令で認められる場合</li>
+              </ol>
+            </div>
+            <p>3-2 当社は、個人情報を第三者に提供したときは、記録の作成及び保存を行います。</p>
+            <p>3-3 当社は、第三者から個人情報の提供を受けるに際しては、必要な確認を行い、当該確認にかかる記録の作成及び保存を行うものとします。</p>
+          </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">4. Cookieの使用</h2>
-          <p className="text-gray-400 italic">※ ここに正式な文章が入ります。</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">4. 安全管理措置</h2>
+          <div className="space-y-2">
+            <p>4-1 当社は、利用者情報の漏えい、滅失または毀損の防止その他の利用者情報の安全管理のために、必要かつ適切な措置を講じています。</p>
+            <p>4-2 当社は、利用者情報のうち個人情報の取扱いを外部（Supabase等のサーバー提供元を含みます。）に委託する場合には、適切なセキュリティ基準を満たす事業者を選定し、個人情報の安全管理が図られるよう必要かつ適切な監督を行っています。</p>
+          </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">5. お問い合わせ</h2>
-          <p className="text-gray-400 italic">※ ここに正式な文章が入ります。</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">5. 個人情報の開示等の請求</h2>
+          <div className="space-y-2">
+            <p>5-1 当社は、ユーザーから、個人情報保護法の定めに基づき保有個人データの利用目的の通知、保有個人データ又は第三者提供の記録の開示、保有個人データの内容の訂正・追加・削除、保有個人データの利用の停止・消去・第三者提供の停止のご請求（あわせて以下「個人情報の開示等の請求」といいます。）があった場合は、ユーザーご本人からのご請求であることを確認した上で、当社所定の手続きに従い、遅滞なくこれらに対応いたします。</p>
+            <p>5-2 利用目的の通知、保有個人データ又は第三者提供の記録の開示につきましては、手数料としてご請求1件につき1,000円（消費税別）をお支払いいただきます。</p>
+            <p>5-3 個人情報の開示等の請求の具体的な方法については、本プライバシーポリシーに記載の当社のお問い合わせ窓口にお問い合わせください。</p>
+          </div>
         </section>
+
+        <section>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">6. お問い合わせ窓口</h2>
+          <p className="mb-3">本サービスに対するご意見、ご質問、苦情のお申出その他利用者情報の取扱いに関するお問い合わせは、下記の窓口までお願いいたします。</p>
+          <div className="space-y-1">
+            <p>住所：〒170-0001　東京都豊島区西巣鴨2-31-7-B-2F3</p>
+            <p>氏名：平田駿輔</p>
+            <p>個人情報取扱責任者：平田駿輔</p>
+            <p>お問い合わせ窓口：shunsukehirata777@gmail.com</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">7. プライバシーポリシーの変更手続</h2>
+          <p>当社は、必要に応じて、本ポリシーを変更します。但し、法令上ユーザーの同意が必要となるような本ポリシーの変更を行う場合、変更後の本ポリシーは、当社所定の方法で変更に同意したユーザーに対してのみ適用されるものとします。なお、当社は、本ポリシーを変更する場合には、変更後の本ポリシーの施行時期及び内容を当社のウェブサイト上での表示その他の適切な方法により周知し、またはユーザーに通知します。</p>
+        </section>
+
+        <p className="text-sm text-gray-500">2026年7月1日制定</p>
       </div>
     </div>
   );
