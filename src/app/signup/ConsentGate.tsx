@@ -74,7 +74,7 @@ export default function ConsentGate() {
       </div>
 
       <p className="text-xs text-gray-500">
-        アカウントを作成することで、利用規約およびプライバシーポリシーに同意したものとみなします。
+        アカウントを作成することで、利用規約およびプライバシーポリシーに同意なさったものとみなします。
       </p>
 
 
